@@ -1,0 +1,247 @@
+From 6d84f0e1521940192e78d9934547fb493f8ed41e Mon Sep 17 00:00:00 2001
+From: Bryan <bryan.londono@ingeneo.com.co>
+Date: Fri, 4 Oct 2019 16:39:45 -0500
+Subject: [PATCH] =?UTF-8?q?Se=20crea=20el=20m=C3=A9todo=20de=20crear?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ .../Controllers/StampController.cs                 | 25 +++++-
+ .../Domain.Service/DTO/CreateStampDTO.cs           | 18 ++++
+ .../Services/Interface/IStampService.cs            |  7 ++
+ .../Domain.Service/Services/StampService.cs        |  5 ++
+ .../UnitOfWork/UnitOfWork.cs.rej                   | 96 ++++++++++++++++++++++
+ 5 files changed, 149 insertions(+), 2 deletions(-)
+ create mode 100644 Xm.Acme.AdministracionDeudas/Domain.Service/DTO/CreateStampDTO.cs
+ create mode 100644 Xm.Acme.AdministracionDeudas/Infraestructure.Core/UnitOfWork/UnitOfWork.cs.rej
+
+diff --git a/Xm.Acme.AdministracionDeudas/Applicacion.Expirations.WebApi/Controllers/StampController.cs b/Xm.Acme.AdministracionDeudas/Applicacion.Expirations.WebApi/Controllers/StampController.cs
+index bf43ab2..0ca1805 100644
+--- a/Xm.Acme.AdministracionDeudas/Applicacion.Expirations.WebApi/Controllers/StampController.cs
++++ b/Xm.Acme.AdministracionDeudas/Applicacion.Expirations.WebApi/Controllers/StampController.cs
+@@ -3,6 +3,9 @@ using System.Collections.Generic;
+ using System.Linq;
+ using System.Threading.Tasks;
+ using Applicacion.Expirations.WebApi.Models;
++using AutoMapper;
++using Domain.Service.DTO;
++using Domain.Service.Services.Interface;
+ using Microsoft.AspNetCore.Http;
+ using Microsoft.AspNetCore.Mvc;
+ 
+@@ -14,12 +17,15 @@ namespace Applicacion.Expirations.WebApi.Controllers
+     {
+         #region Attributes
+ 
++        public readonly IStampService stampService;
++
+         #endregion
+ 
+         #region Constructor
+ 
+-        public StampController()
++        public StampController(IStampService istampService)
+         {
++            this.stampService = istampService;
+         }
+ 
+         #endregion
+@@ -30,7 +36,22 @@ namespace Applicacion.Expirations.WebApi.Controllers
+         [HttpPost]
+         public IActionResult SaveStampRequest(CreateStampModel createStampModel)
+         {
+-            return Ok();
++            HttpResponse response;
++            try
++            {
++
++                CreateStampDTO monthlySettingsDTO = Mapper.Map<CreateStampDTO>(createStampModel);
++                bool result = stampService.Save(monthlySettingsDTO);
++
++                if (result)
++                    return Ok();
++                else
++                    return BadRequest();
++            }
++            catch (Exception ex)
++            {
++                return BadRequest();
++            }
+         }
+ 
+ 
+diff --git a/Xm.Acme.AdministracionDeudas/Domain.Service/DTO/CreateStampDTO.cs b/Xm.Acme.AdministracionDeudas/Domain.Service/DTO/CreateStampDTO.cs
+new file mode 100644
+index 0000000..ae9a3ac
+--- /dev/null
++++ b/Xm.Acme.AdministracionDeudas/Domain.Service/DTO/CreateStampDTO.cs
+@@ -0,0 +1,18 @@
++﻿using System;
++using System.Collections.Generic;
++using System.Text;
++
++namespace Domain.Service.DTO
++{
++    public class CreateStampDTO
++    {
++        public List<int> BusinessIds { get; set; }
++        public int CompanyId { get; set; }
++        public List<string> AgentCodes { get; set; }
++        public string Name { get; set; }
++        public string Description { get; set; }
++        public float Percentage { get; set; }
++        public string Observations { get; set; }
++        public bool AcceptTerms { get; set; }
++    }
++}
+diff --git a/Xm.Acme.AdministracionDeudas/Domain.Service/Services/Interface/IStampService.cs b/Xm.Acme.AdministracionDeudas/Domain.Service/Services/Interface/IStampService.cs
+index de5e8e6..b6cb3e2 100644
+--- a/Xm.Acme.AdministracionDeudas/Domain.Service/Services/Interface/IStampService.cs
++++ b/Xm.Acme.AdministracionDeudas/Domain.Service/Services/Interface/IStampService.cs
+@@ -1,10 +1,17 @@
+ ﻿using System;
+ using System.Collections.Generic;
+ using System.Text;
++using Domain.Service.DTO;
+ 
+ namespace Domain.Service.Services.Interface
+ {
+     public interface IStampService
+     {
++        /// <summary>
++        /// method to create the stamp
++        /// </summary>
++        /// <param name="stamp">CreateStampDTO</param>
++        /// <returns></returns>
++        bool Save(CreateStampDTO stamp);
+     }
+ }
+diff --git a/Xm.Acme.AdministracionDeudas/Domain.Service/Services/StampService.cs b/Xm.Acme.AdministracionDeudas/Domain.Service/Services/StampService.cs
+index 66054cd..7dbbc37 100644
+--- a/Xm.Acme.AdministracionDeudas/Domain.Service/Services/StampService.cs
++++ b/Xm.Acme.AdministracionDeudas/Domain.Service/Services/StampService.cs
+@@ -1,6 +1,7 @@
+ ﻿using System;
+ using System.Collections.Generic;
+ using System.Text;
++using Domain.Service.DTO;
+ using Domain.Service.Services.Interface;
+ using Infraestructure.Core.UnitOfWork.Interface;
+ 
+@@ -24,6 +25,10 @@ namespace Domain.Service.Services
+ 
+         #region methods
+ 
++        public bool Save(CreateStampDTO stamp)
++        {
++            throw new NotImplementedException();
++        }
+ 
+         #endregion
+     }
+diff --git a/Xm.Acme.AdministracionDeudas/Infraestructure.Core/UnitOfWork/UnitOfWork.cs.rej b/Xm.Acme.AdministracionDeudas/Infraestructure.Core/UnitOfWork/UnitOfWork.cs.rej
+new file mode 100644
+index 0000000..1551dca
+--- /dev/null
++++ b/Xm.Acme.AdministracionDeudas/Infraestructure.Core/UnitOfWork/UnitOfWork.cs.rej
+@@ -0,0 +1,96 @@
++diff a/Xm.Acme.AdministracionDeudas/Infraestructure.Core/UnitOfWork/UnitOfWork.cs b/Xm.Acme.AdministracionDeudas/Infraestructure.Core/UnitOfWork/UnitOfWork.cs	(rejected hunks)
++@@ -64,7 +64,13 @@
++         #region Attributes
++ 
++         private Repository<DateSettingsEntity> dateSettingsRepository;
++-        private Repository<BusinessDateSettingsEntity> businessDateSettingsEntity;
+++        private Repository<BusinessDateSettingsEntity> businessDateSettingsRepository;
+++        private Repository<StampRequestEntity> stampRequestRepository;
+++        private Repository<StampRequestHistoryEntity> stampRequestHistoryRepository;
+++        private Repository<StampRequestAgentEntity> stampRequestAgentRepository;
+++        private Repository<StampRequestBusinessEntity> stampRequestBusinessRepository;
+++        private Repository<StampRequestDocumentEntity> stampRequestDocumentRepository;
+++        private Repository<StampRequestObservationEntity> stampRequestObservationRepository;
++         #endregion
++ 
++ 
++@@ -85,10 +91,76 @@
++         {
++             get
++             {
++-                if (this.businessDateSettingsEntity == null)
++-                    this.businessDateSettingsEntity = new Repository<BusinessDateSettingsEntity>(_contextSQLServer);
+++                if (this.businessDateSettingsRepository == null)
+++                    this.businessDateSettingsRepository = new Repository<BusinessDateSettingsEntity>(_contextSQLServer);
++ 
++-                return businessDateSettingsEntity;
+++                return businessDateSettingsRepository;
+++            }
+++        }
+++
+++        public Repository<StampRequestEntity> StampRequestRepository
+++        {
+++            get
+++            {
+++                if (this.stampRequestRepository == null)
+++                    this.stampRequestRepository = new Repository<StampRequestEntity>(_contextSQLServer);
+++
+++                return stampRequestRepository;
+++            }
+++        }
+++
+++        public Repository<StampRequestHistoryEntity> StampRequestHistoryRepository
+++        {
+++            get
+++            {
+++                if (this.stampRequestHistoryRepository == null)
+++                    this.stampRequestHistoryRepository = new Repository<StampRequestHistoryEntity>(_contextSQLServer);
+++
+++                return stampRequestHistoryRepository;
+++            }
+++        }
+++
+++        public Repository<StampRequestAgentEntity> StampRequestAgentRepository
+++        {
+++            get
+++            {
+++                if (this.stampRequestAgentRepository == null)
+++                    this.stampRequestAgentRepository = new Repository<StampRequestAgentEntity>(_contextSQLServer);
+++
+++                return stampRequestAgentRepository;
+++            }
+++        }
+++
+++        public Repository<StampRequestBusinessEntity> StampRequestBusinessRepository
+++        {
+++            get
+++            {
+++                if (this.stampRequestBusinessRepository == null)
+++                    this.stampRequestBusinessRepository = new Repository<StampRequestBusinessEntity>(_contextSQLServer);
+++
+++                return stampRequestBusinessRepository;
+++            }
+++        }
+++
+++        public Repository<StampRequestDocumentEntity> StampRequestDocumentRepository
+++        {
+++            get
+++            {
+++                if (this.stampRequestDocumentRepository == null)
+++                    this.stampRequestDocumentRepository = new Repository<StampRequestDocumentEntity>(_contextSQLServer);
+++
+++                return stampRequestDocumentRepository;
+++            }
+++        }
+++
+++        public Repository<StampRequestObservationEntity> StampRequestObservationRepository
+++        {
+++            get
+++            {
+++                if (this.stampRequestObservationRepository == null)
+++                    this.stampRequestObservationRepository = new Repository<StampRequestObservationEntity>(_contextSQLServer);
+++
+++                return stampRequestObservationRepository;
++             }
++         }
++ 
+-- 
+2.14.2.windows.2
+

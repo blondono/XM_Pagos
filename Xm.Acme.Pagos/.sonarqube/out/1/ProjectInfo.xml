@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ProjectInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.sonarsource.com/msbuild/integration/2015/1">
+  <ProjectName>Infraestructure.Entity</ProjectName>
+  <ProjectLanguage>C#</ProjectLanguage>
+  <ProjectType>Product</ProjectType>
+  <ProjectGuid>707dfe2e-2166-4f1d-8228-864b10eb3a38</ProjectGuid>
+  <FullPath>D:\Cliente XM\IntegrationOracle\Infraestructure.Entity\Infraestructure.Entity.csproj</FullPath>
+  <IsExcluded>false</IsExcluded>
+  <AnalysisResults>
+    <AnalysisResult Id="FilesToAnalyze" Location="D:\Cliente XM\IntegrationOracle\.sonarqube\out\1\FilesToAnalyze.txt" />
+  </AnalysisResults>
+  <AnalysisSettings>
+    <Property Name="sonar.cs.roslyn.reportFilePath">D:\Cliente XM\IntegrationOracle\Infraestructure.Entity\bin\Debug\netcoreapp2.2\Infraestructure.Entity.dll.RoslynCA.json|D:\Cliente XM\IntegrationOracle\Infraestructure.Entity\bin\Debug\netcoreapp2.2\Infraestructure.Entity.dll.RoslynCA.json</Property>
+    <Property Name="sonar.cs.analyzer.projectOutPath">D:\Cliente XM\IntegrationOracle\.sonarqube\out\1</Property>
+  </AnalysisSettings>
+  <Configuration>Debug</Configuration>
+  <Platform>AnyCPU</Platform>
+  <TargetFramework>netcoreapp2.2</TargetFramework>
+</ProjectInfo>
