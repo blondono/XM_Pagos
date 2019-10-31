@@ -1,4 +1,6 @@
 ﻿using Common.Utils.Utils.Interface;
+using Domain.Service.Services;
+using Domain.Service.Services.Interface;
 using Infraestructure.Core.Context;
 using Infraestructure.Core.Repository;
 using Infraestructure.Core.Repository.Interface;
@@ -35,6 +37,9 @@ namespace Applicacion.IntegrationOracle.WebApi.Handlers
             // Common
             services.AddTransient<IHeaderClaims, HeaderClaims>();
             services.AddTransient<IRestService, RestService>();
+
+            // Agent Crossing
+            services.AddTransient<IAgentCrossingsService, AgentCrossingsService>();
 
             #endregion
         }

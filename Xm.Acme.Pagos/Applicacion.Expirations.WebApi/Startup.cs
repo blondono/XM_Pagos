@@ -93,23 +93,17 @@ namespace Applicacion.IntegrationOracle.WebApi
 
             #region Oracle
 
-            services.AddDbContext<Infraestructure.Core.Context.Context>(options =>
-               options.UseOracle(Configuration.GetConnectionString("ConnectionStringOracle")));
+            //services.AddDbContext<Infraestructure.Core.Context.Context>(options =>
+            //   options.UseOracle(Configuration.GetConnectionString("ConnectionStringOracle")));
 
             #endregion
 
-            //#region SQL
+            #region SQL
 
-            //services.AddEntityFrameworkSqlServer()
-            //   .AddDbContext<Infraestructure.Core.Context.Context>(options =>
-            //   {
-            //       options.UseSqlServer(Configuration.GetConnectionString("ConnectionStringSQLServer"),
-            //           sqlOptions => sqlOptions.MigrationsAssembly(typeof(Startup)
-            //           .GetTypeInfo()
-            //           .Assembly.GetName().Name));
-            //   },
-            //   ServiceLifetime.Scoped);
-            //#endregion
+            services.AddDbContext<Infraestructure.Core.Context.DBContext>(options =>
+               options.UseSqlServer(Configuration.GetConnectionString("ConnectionStringSQLServer"),
+               providerOptions => providerOptions.EnableRetryOnFailure()));
+            #endregion
 
 
             #endregion

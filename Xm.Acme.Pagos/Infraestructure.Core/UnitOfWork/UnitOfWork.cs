@@ -3,6 +3,7 @@ using System.Linq;
 using Infraestructure.Core.Context;
 using Infraestructure.Core.Repository;
 using Infraestructure.Core.UnitOfWork.Interface;
+using Infraestructure.Entity.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,13 +13,13 @@ namespace Infraestructure.Core.UnitOfWork
     {
         #region Attributes       
 
-        private readonly Context.Context _context;
+        private readonly Context.DBContext _context;
         private bool disposed = false;
         #endregion
 
 
         #region Constructor
-        public UnitOfWork(Context.Context context)
+        public UnitOfWork(DBContext context)
         {
             this._context = context;
         }
@@ -27,6 +28,11 @@ namespace Infraestructure.Core.UnitOfWork
 
         #region Attributes
 
+
+        #region Crossing
+        private Repository<TypeCrossingsEntity> typeCrossingsRepository;
+        private Repository<AgentCrossingsEntity> agentCrossingsRepository;
+        #endregion
 
         #region Load
 
@@ -40,16 +46,31 @@ namespace Infraestructure.Core.UnitOfWork
 
         #region  Members
 
-        //public Repository<LoadLatestExpirationEntity> LoadLatestExpirationRepository
-        //{
-        //    get
-        //    {
-        //        if (this.loadLatestExpirationRepository == null)
-        //            this.loadLatestExpirationRepository = new Repository<LoadLatestExpirationEntity>(_context);
+        #region Crossing
 
-        //        return loadLatestExpirationRepository;
-        //    }
-        //}
+        public Repository<TypeCrossingsEntity> TypeCrossingsRepository
+        {
+            get
+            {
+                if (this.typeCrossingsRepository == null)
+                    this.typeCrossingsRepository = new Repository<TypeCrossingsEntity>(_context);
+
+                return typeCrossingsRepository;
+            }
+        }
+
+        public Repository<AgentCrossingsEntity> AgentCrossingsRepository
+        {
+            get
+            {
+                if (this.agentCrossingsRepository == null)
+                    this.agentCrossingsRepository = new Repository<AgentCrossingsEntity>(_context);
+
+                return agentCrossingsRepository;
+            }
+        }
+
+        #endregion
 
         #endregion
 

@@ -8,9 +8,4 @@
     <ProjectReference Include="..\Infraestructure.Core\Infraestructure.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="DTO\" />
-    <Folder Include="Services\Interface\" />
-  </ItemGroup>
-
 </Project>

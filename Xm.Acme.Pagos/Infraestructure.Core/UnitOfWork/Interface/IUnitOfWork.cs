@@ -1,14 +1,21 @@
 ﻿using System;
 using Infraestructure.Core.Repository;
+using Infraestructure.Entity.Entities;
 
 namespace Infraestructure.Core.UnitOfWork.Interface
 {
     public interface IUnitOfWork : IDisposable
     {
+        #region AgentCrossings
+
+        Repository<TypeCrossingsEntity> TypeCrossingsRepository { get; }
+        Repository<AgentCrossingsEntity> AgentCrossingsRepository { get; }
+
+        #endregion
 
         #region Load
 
-         //Repository<LoadLatestExpirationEntity> LoadLatestExpirationRepository { get;  }
+        //Repository<LoadLatestExpirationEntity> LoadLatestExpirationRepository { get;  }
         #endregion
 
 
