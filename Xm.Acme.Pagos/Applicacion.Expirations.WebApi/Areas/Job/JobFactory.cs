@@ -4,7 +4,7 @@ using Quartz.Spi;
 using System;
 
 
-namespace Applicacion.IntegrationOracle.WebApi.Areas.Job
+namespace Applicacion.Pagos.WebApi.Areas.Job
 {
     public class JobFactory : IJobFactory
     {

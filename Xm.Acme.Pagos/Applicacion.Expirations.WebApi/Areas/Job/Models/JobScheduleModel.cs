@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Applicacion.IntegrationOracle.WebApi.Areas.Job.Models
+namespace Applicacion.Pagos.WebApi.Areas.Job.Models
 {
     public class JobScheduleModel
     {

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Applicacion.IntegrationOracle.WebApi.Areas.Job
+namespace Applicacion.Pagos.WebApi.Areas.Job
 {
     [DisallowConcurrentExecution]
     public class Job : IJob

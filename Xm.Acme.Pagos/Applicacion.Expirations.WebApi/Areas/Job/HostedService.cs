@@ -1,4 +1,4 @@
-﻿using Applicacion.IntegrationOracle.WebApi.Areas.Job.Models;
+﻿using Applicacion.Pagos.WebApi.Areas.Job.Models;
 using Microsoft.Extensions.Hosting;
 using Quartz;
 using Quartz.Spi;
@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Applicacion.IntegrationOracle.WebApi.Areas.Job
+namespace Applicacion.Pagos.WebApi.Areas.Job
 {
     public class HostedService : IHostedService
     {

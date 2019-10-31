@@ -1,4 +1,4 @@
-﻿using Applicacion.IntegrationOracle.WebApi;
+﻿using Applicacion.Pagos.WebApi;
 using Common.Utils.Swagger;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -11,7 +11,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace Applicacion.IntegrationOracle.WebApi.Handlers
+namespace Applicacion.Pagos.WebApi.Handlers
 {
     public static class SwaggerHandler
     {

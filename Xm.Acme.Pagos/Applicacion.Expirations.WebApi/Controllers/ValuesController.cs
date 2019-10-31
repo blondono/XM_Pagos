@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Applicacion;
-using Applicacion.IntegrationOracle;
-using Applicacion.IntegrationOracle.WebApi;
-using Applicacion.IntegrationOracle.WebApi.Controllers;
+using Applicacion.Pagos;
+using Applicacion.Pagos.WebApi;
+using Applicacion.Pagos.WebApi.Controllers;
 using AutoMapper;
 using Common.Utils.Utils.Interface;
 using Infraestructure.Core.Context;
@@ -16,7 +16,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace Applicacion.IntegrationOracle.WebApi.Controllers
+namespace Applicacion.Pagos.WebApi.Controllers
 {
     //[Authorize]
     [Route("api/[controller]")]

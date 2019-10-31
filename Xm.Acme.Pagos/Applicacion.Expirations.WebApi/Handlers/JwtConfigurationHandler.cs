@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Applicacion.IntegrationOracle.WebApi.Handlers
+namespace Applicacion.Pagos.WebApi.Handlers
 {
     public static class JwtConfigurationHandler
     {

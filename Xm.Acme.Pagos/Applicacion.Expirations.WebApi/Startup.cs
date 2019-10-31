@@ -1,10 +1,10 @@
 ﻿using Applicacion;
-using Applicacion.IntegrationOracle;
-using Applicacion.IntegrationOracle.WebApi;
-using Applicacion.IntegrationOracle.WebApi.Areas.Job;
-using Applicacion.IntegrationOracle.WebApi.Areas.Job.Models;
-using Applicacion.IntegrationOracle.WebApi.Handlers;
-using Applicacion.IntegrationOracle.WebApi;
+using Applicacion.Pagos;
+using Applicacion.Pagos.WebApi;
+using Applicacion.Pagos.WebApi.Areas.Job;
+using Applicacion.Pagos.WebApi.Areas.Job.Models;
+using Applicacion.Pagos.WebApi.Handlers;
+using Applicacion.Pagos.WebApi;
 using AutoMapper;
 using Common.Utils.JWT;
 using Common.Utils.Swagger;
@@ -39,7 +39,7 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 
-namespace Applicacion.IntegrationOracle.WebApi
+namespace Applicacion.Pagos.WebApi
 {
     public class Startup
     {

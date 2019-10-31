@@ -4,16 +4,16 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Applicacion;
-using Applicacion.IntegrationOracle;
-using Applicacion.IntegrationOracle.WebApi;
-using Applicacion.IntegrationOracle.WebApi;
+using Applicacion.Pagos;
+using Applicacion.Pagos.WebApi;
+using Applicacion.Pagos.WebApi;
 using Common.Utils.AutoMapper;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace Applicacion.IntegrationOracle.WebApi
+namespace Applicacion.Pagos.WebApi
 {
     public class Program
     {
