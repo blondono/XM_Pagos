@@ -17,6 +17,7 @@ namespace Applicacion.IntegrationOracle.WebApi
 {
     public class Program
     {
+
         public static void Main(string[] args)
         {
             // Inicialize Automapper
