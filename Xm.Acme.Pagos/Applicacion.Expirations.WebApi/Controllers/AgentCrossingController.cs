@@ -45,7 +45,7 @@ namespace Applicacion.Pagos.WebApi.Controllers
 
             try
             {
-                IEnumerable<AgentCrossingsDTO> result = agentCrossingsService.GetAgentCrossing(filters);
+                IEnumerable<AgentCrossingsResponseDTO> result = agentCrossingsService.GetAgentCrossing(filters);
 
                 if (result != null)
                     return Ok(result);

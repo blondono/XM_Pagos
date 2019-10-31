@@ -70,26 +70,26 @@ namespace Domain.Service.Services
         /// </summary>
         /// <param name="filters">AgentCrossingsFilterDTO</param>
         /// <returns>List<AgentCrossingsDTO></returns>
-        public IEnumerable<AgentCrossingsDTO> GetAgentCrossing(AgentCrossingsFilterDTO filters)
+        public IEnumerable<AgentCrossingsResponseDTO> GetAgentCrossing(AgentCrossingsFilterDTO filters)
         {
             try
             {
-                IEnumerable<AgentCrossingsDTO> agentCrossingsDTOs = this.unitOfWork.AgentCrossingsRepository.FindAll(ac => ac.Business.ToLower().Contains((string.IsNullOrEmpty(filters.Business) ? ac.Business.ToLower() : filters.Business.ToLower()))
+                IEnumerable<AgentCrossingsResponseDTO> agentCrossingsDTOs = this.unitOfWork.AgentCrossingsRepository.FindAll(ac => ac.Business.ToLower().Contains((string.IsNullOrEmpty(filters.Business) ? ac.Business.ToLower() : filters.Business.ToLower()))
                                                                                                                             && ac.Agent.ToLower().Contains((string.IsNullOrEmpty(filters.Agent) ? ac.Agent.ToLower() : filters.Agent.ToLower()))
                                                                                                                             && ac.TypeCrossingId == (filters.TypeCrossingId == 0 ? ac.TypeCrossingId : filters.TypeCrossingId)
                                                                                                                             && ac.DueDate.ToString("yyyy-MM-dd") == (string.IsNullOrEmpty(filters.DueDate) ? ac.DueDate.ToString("yyyy-MM-dd") : filters.DueDate)
                                                                                                                             , ac => ac.TypeCrossingsEntity)
                     .OrderByDescending(ob => ob.CreationDate)
-                    .Select(g => new AgentCrossingsDTO()
+                    .Select(g => new AgentCrossingsResponseDTO()
                     {
                         Agent = g.Agent,
                         AgentCrossingId = g.AgentCrossingId,
                         Business = g.Business,
                         Company = g.Company,
                         Crossed = g.Crossed,
-                        DueDate = g.DueDate,
-                        FinalValidity = g.FinalValidity,
-                        InitialValidity = g.InitialValidity,
+                        DueDate = g.DueDate.ToString("yyyy-MM-dd"),
+                        FinalValidity = g.FinalValidity.ToString("yyyy-MM-dd"),
+                        InitialValidity = g.InitialValidity.ToString("yyyy-MM-dd"),
                         TypeCrossing = g.TypeCrossingsEntity.Name,
                         TypeCrossingId = g.TypeCrossingId
                     }).Take(100);

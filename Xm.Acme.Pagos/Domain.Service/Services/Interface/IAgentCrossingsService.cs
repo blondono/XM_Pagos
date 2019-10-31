@@ -38,7 +38,7 @@ namespace Domain.Service.Services.Interface
         /// </summary>
         /// <param name="filters">AgentCrossingsFilterDTO</param>
         /// <returns>List<AgentCrossingsDTO></returns>
-        IEnumerable<AgentCrossingsDTO> GetAgentCrossing(AgentCrossingsFilterDTO filters);
+        IEnumerable<AgentCrossingsResponseDTO> GetAgentCrossing(AgentCrossingsFilterDTO filters);
         
         #endregion
 
