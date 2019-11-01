@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Domain.Service.DTO.Crossing
 {
-    public class AgentCrossingsResponseDTO
+    public class AgentCrossingsResultDTO
     {
         public int AgentCrossingId { get; set; }
         public string Business { get; set; }

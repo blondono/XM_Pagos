@@ -15,7 +15,7 @@ namespace Domain.Service.Services.Interface
         /// <param name="agentCrossingsDTO">agentCrossingsDTO</param>
         /// <param name="user">user</param>
         /// <returns>bool</returns>
-        bool InsertAgentCrossing(AgentCrossingsDTO agentCrossingsDTO, string user);
+        List<string> InsertAgentCrossing(AgentCrossingsDTO agentCrossingsDTO, string user, string token);
 
         /// <summary>
         /// update a Agent Crossing record
@@ -38,7 +38,7 @@ namespace Domain.Service.Services.Interface
         /// </summary>
         /// <param name="filters">AgentCrossingsFilterDTO</param>
         /// <returns>List<AgentCrossingsDTO></returns>
-        IEnumerable<AgentCrossingsResponseDTO> GetAgentCrossing(AgentCrossingsFilterDTO filters);
+        IEnumerable<AgentCrossingsResultDTO> GetAgentCrossing(AgentCrossingsFilterDTO filters);
         
         #endregion
 

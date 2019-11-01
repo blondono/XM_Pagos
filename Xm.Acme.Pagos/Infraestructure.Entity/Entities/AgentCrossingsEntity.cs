@@ -18,6 +18,7 @@ namespace Infraestructure.Entity.Entities
         public DateTime InitialValidity { get; set; }
         public DateTime FinalValidity { get; set; }
         public string Company { get; set; }
+        public int Value { get; set; }
         public DateTime DueDate { get; set; }
         public bool? Crossed { get; set; }
 

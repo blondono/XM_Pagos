@@ -48,13 +48,13 @@ namespace UnitTest.Domain
             {
                 Business = "STN"
             };
-            List<AgentCrossingsResponseDTO> list = new List<AgentCrossingsResponseDTO>()
+            List<AgentCrossingsFilterDTO> list = new List<AgentCrossingsFilterDTO>()
             {
-                new AgentCrossingsResponseDTO() { Business = "STN" }
+                new AgentCrossingsFilterDTO() { Business = "STN" }
             };
             try
             {
-                IEnumerable<AgentCrossingsResponseDTO> response = agentCrossingsService.GetAgentCrossing(filters);
+                IEnumerable<AgentCrossingsResultDTO> response = agentCrossingsService.GetAgentCrossing(filters);
                  Assert.AreEqual(response.ToList()[0].Business, list[0].Business);
             }
             catch (Exception ex)
