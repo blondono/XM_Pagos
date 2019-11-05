@@ -21,6 +21,7 @@ namespace Infraestructure.Entity.Entities
         public int Value { get; set; }
         public DateTime DueDate { get; set; }
         public bool? Crossed { get; set; }
+        public bool? FullPaymentDebts { get; set; }
 
         public TypeCrossingsEntity TypeCrossingsEntity { get; set; }
     }

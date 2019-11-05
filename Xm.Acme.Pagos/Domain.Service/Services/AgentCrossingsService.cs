@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using Common.Utils.Constant;
 using Common.Utils.Excepcions;
 using Domain.Service.DTO.Crossing;
 using Domain.Service.Services.Interface;
@@ -41,31 +42,136 @@ namespace Domain.Service.Services
         /// <param name="agentCrossingsDTO">agentCrossingsDTO</param>
         /// <param name="user">user</param>
         /// <returns>bool</returns>
-        public List<string> InsertAgentCrossing(AgentCrossingsDTO agentCrossingsDTO, string user, string token)
+        public AgentCrossingsResponseDTO InsertCustodyAgentCrossing(AgentCrossingsDTO agentCrossingsDTO, string user, string token)
         {
-            bool isValid = true;
+            bool isValid = false;
+            List<string> lstMessages = new List<string>();
+            AgentCrossingsResponseDTO responseDTO;
+            try
+            {
+                lstMessages = ValidateAgentCrossing(agentCrossingsDTO, user, token);
+
+                if (lstMessages.Count == 0)
+                {
+                    DateTime dueDate = configurationService.GetDateExpirationByBusiness(agentCrossingsDTO.Business, token).FirstOrDefault();
+
+                    // Rule 6: The Initial Term will be the first day of the selected expiration and the Final Term will be the last calendar day of the selected expiration month.
+                    DateTime InitialValidity = dueDate;
+                    DateTime FinalValidity = new DateTime(InitialValidity.Year, InitialValidity.Month, DateTime.DaysInMonth(InitialValidity.Year, InitialValidity.Month));
+
+                    AgentCrossingsEntity entity = new AgentCrossingsEntity()
+                    {
+                        Company = agentCrossingsDTO.Company,
+                        Business = agentCrossingsDTO.Business,
+                        Agent = agentCrossingsDTO.Agent,
+                        TypeCrossingId = agentCrossingsDTO.TypeCrossingId,
+                        Value = agentCrossingsDTO.Value,
+                        DueDate = agentCrossingsDTO.DueDate,
+                        InitialValidity = InitialValidity,
+                        FinalValidity = FinalValidity,
+                        CreationDate = DateTime.Now,
+                        CreationUser = user
+                    };
+                    this.unitOfWork.AgentCrossingsRepository.Insert(entity);
+                    this.unitOfWork.Save();
+                    isValid = true;
+                    lstMessages = new List<string>();
+                    lstMessages.Add(AgentValidation.Successfull);
+                }
+                responseDTO = new AgentCrossingsResponseDTO()
+                {
+                    IsValid = isValid,
+                    Messages = lstMessages
+                };
+                return responseDTO;
+            }
+            catch (BusinessExeption ex)
+            {
+                throw new BusinessExeption("Fallo al consultar", ex);
+            }
+            catch (Exception ex)
+            {
+                throw new BusinessExeption("Fallo al consultar", ex);
+            }
+        }
+
+        /// <summary>
+        /// Create a Agent Crossing record
+        /// </summary>
+        /// <param name="agentCrossingsDTO"></param>
+        /// <param name="user"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public AgentCrossingsResponseDTO InsertDebtAgentCrossing(AgentCrossingsDTO agentCrossingsDTO, string user, string token)
+        {
+            List<string> lstMessages = new List<string>();
+            AgentCrossingsResponseDTO responseDTO;
+            bool isValid = false;
+            try
+            {
+                lstMessages = ValidateAgentCrossing(agentCrossingsDTO, user, token);
+                if (lstMessages.Count == 0)
+                {
+                    DateTime dueDate = configurationService.GetDateExpirationByBusiness(agentCrossingsDTO.Business, token).FirstOrDefault();
+
+                    // Rule 6: The Initial Term will be the first day of the selected expiration and the Final Term will be the last calendar day of the selected expiration month.
+                    DateTime InitialValidity = dueDate;
+
+                    AgentCrossingsEntity entity = new AgentCrossingsEntity()
+                    {
+                        Company = agentCrossingsDTO.Company,
+                        Business = agentCrossingsDTO.Business,
+                        Agent = agentCrossingsDTO.Agent,
+                        TypeCrossingId = agentCrossingsDTO.TypeCrossingId,
+                        Value = (agentCrossingsDTO.FullPaymentDebts.HasValue && agentCrossingsDTO.FullPaymentDebts.Value ? 0 : agentCrossingsDTO.Value),
+                        DueDate = agentCrossingsDTO.DueDate,
+                        InitialValidity = InitialValidity,
+                        FinalValidity = agentCrossingsDTO.FinalValidity,
+                        CreationDate = DateTime.Now,
+                        CreationUser = user
+                    };
+                    this.unitOfWork.AgentCrossingsRepository.Insert(entity);
+                    this.unitOfWork.Save();
+                    isValid = true;
+                    lstMessages = new List<string>();
+                    lstMessages.Add(AgentValidation.Successfull);
+                }
+                responseDTO = new AgentCrossingsResponseDTO()
+                {
+                    IsValid = isValid,
+                    Messages = lstMessages
+                };
+                return responseDTO;
+            }
+            catch (BusinessExeption ex)
+            {
+                throw new BusinessExeption("Fallo al consultar", ex);
+            }
+            catch (Exception ex)
+            {
+                throw new BusinessExeption("Fallo al consultar", ex);
+            }
+        }
+
+        public List<string> ValidateAgentCrossing(AgentCrossingsDTO agentCrossingsDTO, string user, string token)
+        {
+
             List<string> lstMessages = new List<string>();
             try
             {
                 DateTime dueDate = configurationService.GetDateExpirationByBusiness(agentCrossingsDTO.Business, token).FirstOrDefault();
 
-
+                // Rule 6: The Initial Term will be the first day of the selected expiration and the Final Term will be the last calendar day of the selected expiration month.
                 DateTime InitialValidity = dueDate;
                 DateTime FinalValidity = new DateTime(InitialValidity.Year, InitialValidity.Month, DateTime.DaysInMonth(InitialValidity.Year, InitialValidity.Month));
 
                 // Rule 1: Uniqueness. The system must validate that when there is duplicity a message is sent. To control duplicity you must validate: Business. Agent. Cross Type
                 if (this.unitOfWork.AgentCrossingsRepository.FindAll(x => x.Company == agentCrossingsDTO.Company && x.Agent == agentCrossingsDTO.Agent && x.TypeCrossingId == agentCrossingsDTO.TypeCrossingId).Count() > 0)
-                {
-                    isValid = false;
-                    lstMessages.Add("Ya existe un cruce con la misma empresa, negocio y tipo de cruce");
-                }
+                    lstMessages.Add(AgentValidation.Uniqueness);
 
-                // Rule 7: If the crossing that is created is after the initial date of the current expiration, ACME should not automatically allow you to create the record. You should show a message indicating that the crossing for that date is not possible.
+                // Rule 7, Rule 10: If the crossing that is created is after the initial date of the current expiration, ACME should not automatically allow you to create the record. You should show a message indicating that the crossing for that date is not possible.
                 if (DateTime.Now > InitialValidity)
-                {
-                    isValid = false;
-                    lstMessages.Add("No se puede crear un cruce con fecha posterior a la fecha inicial del vencimiento seleccionado");
-                }
+                    lstMessages.Add(AgentValidation.CeatedInvalid);
 
                 // Rule 8: When the Agents enter crosses, the system must check if there is a due date charged and if for that expiration the agent that enters has a benefit. If you do not have it, you must notify it by means of an alert message and also by email
                 LoadBeneficiaryFiltersDTO filters = new LoadBeneficiaryFiltersDTO()
@@ -75,21 +181,8 @@ namespace Domain.Service.Services
                 };
                 string isBeneficiary = configurationService.GetAgentBeneficiary(filters, token).Find(x => x == agentCrossingsDTO.Agent);
                 if (string.IsNullOrEmpty(isBeneficiary))
-                {
-                    isValid = false;
-                    lstMessages.Add(string.Format("El agente {0} no figura como posee veneficio para el vencimiento {1} del negocio {2}", agentCrossingsDTO.Agent, dueDate.ToString("yyyy-MM-dd"), agentCrossingsDTO.Business));
-                }
+                    lstMessages.Add(string.Format(AgentValidation.IsNotBeneficiary, agentCrossingsDTO.Agent, dueDate.ToString("yyyy-MM-dd"), agentCrossingsDTO.Business));
 
-                if(isValid)
-                {
-                    AgentCrossingsEntity entity = new AgentCrossingsEntity()
-                    {
-                        Company = agentCrossingsDTO.Company,
-                        Business = agentCrossingsDTO.Business,
-                        Agent = agentCrossingsDTO.Agent,
-                        TypeCrossingId = agentCrossingsDTO.TypeCrossingId,
-                    };
-                }
                 return lstMessages;
             }
             catch (BusinessExeption ex)

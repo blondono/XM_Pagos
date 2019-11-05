@@ -10,12 +10,13 @@ namespace Domain.Service.Services.Interface
         #region AgentCrossings
 
         /// <summary>
-        /// Create a Agent Crossing record
+        /// Create a Agent Crossing custody
         /// </summary>
         /// <param name="agentCrossingsDTO">agentCrossingsDTO</param>
         /// <param name="user">user</param>
+        /// <param name="token"></param>
         /// <returns>bool</returns>
-        List<string> InsertAgentCrossing(AgentCrossingsDTO agentCrossingsDTO, string user, string token);
+        AgentCrossingsResponseDTO InsertCustodyAgentCrossing(AgentCrossingsDTO agentCrossingsDTO, string user, string token);
 
         /// <summary>
         /// update a Agent Crossing record
@@ -39,7 +40,16 @@ namespace Domain.Service.Services.Interface
         /// <param name="filters">AgentCrossingsFilterDTO</param>
         /// <returns>List<AgentCrossingsDTO></returns>
         IEnumerable<AgentCrossingsResultDTO> GetAgentCrossing(AgentCrossingsFilterDTO filters);
-        
+
+        /// <summary>
+        /// Create a agent crossing debt
+        /// </summary>
+        /// <param name="agentCrossingsDTO"></param>
+        /// <param name="user"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        AgentCrossingsResponseDTO InsertDebtAgentCrossing(AgentCrossingsDTO agentCrossingsDTO, string user, string token);
+
         #endregion
 
         #region TypeCrossings

@@ -38,7 +38,12 @@ namespace Applicacion.Pagos.WebApi.Controllers
 
         #region Agent Crossings
 
-        [HttpPost("GetStampRequest")]
+        /// <summary>
+        /// Get all agent crossings  by filters
+        /// </summary>
+        /// <param name="filters">AgentCrossingsFilterDTO</param>
+        /// <returns>AgentCrossingsResultDTO</returns>
+        [HttpPost("GetAgentCrossing")]
         public IActionResult GetAgentCrossing(AgentCrossingsFilterDTO filters)
         {
             HttpResponse response;
@@ -51,6 +56,32 @@ namespace Applicacion.Pagos.WebApi.Controllers
                     return Ok(result);
                 else
                     return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
+        }
+
+        /// <summary>
+        /// Insert a custody agent crossing in the database
+        /// </summary>
+        /// <param name="agentCrossingsDTO">AgentCrossingsDTO</param>
+        /// <returns>AgentCrossingsResponseDTO</returns>
+        [HttpPost("SaveDateConfiguration")]
+        public IActionResult InsertCustodyAgentCrossing(AgentCrossingsDTO agentCrossingsDTO)
+        {
+            HttpResponse response;
+            try
+            {
+                string token = Request.Headers["Authorization"];
+                string userName = this.headerClaims.GetUserNameAuth(Request.Headers["Authorization"]);
+                AgentCrossingsResponseDTO result = agentCrossingsService.InsertCustodyAgentCrossing(agentCrossingsDTO, userName, token);
+
+                if (result.IsValid)
+                    return Ok(result);
+                else
+                    return BadRequest(result);
             }
             catch (Exception ex)
             {
