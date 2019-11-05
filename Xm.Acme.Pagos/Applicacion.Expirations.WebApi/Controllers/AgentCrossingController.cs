@@ -68,7 +68,7 @@ namespace Applicacion.Pagos.WebApi.Controllers
         /// </summary>
         /// <param name="agentCrossingsDTO">AgentCrossingsDTO</param>
         /// <returns>AgentCrossingsResponseDTO</returns>
-        [HttpPost("SaveDateConfiguration")]
+        [HttpPost("InsertCustodyAgentCrossing")]
         public IActionResult InsertCustodyAgentCrossing(AgentCrossingsDTO agentCrossingsDTO)
         {
             HttpResponse response;
@@ -77,6 +77,32 @@ namespace Applicacion.Pagos.WebApi.Controllers
                 string token = Request.Headers["Authorization"];
                 string userName = this.headerClaims.GetUserNameAuth(Request.Headers["Authorization"]);
                 AgentCrossingsResponseDTO result = agentCrossingsService.InsertCustodyAgentCrossing(agentCrossingsDTO, userName, token);
+
+                if (result.IsValid)
+                    return Ok(result);
+                else
+                    return BadRequest(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
+        }
+
+        /// <summary>
+        /// Insert a custody agent crossing in the database
+        /// </summary>
+        /// <param name="agentCrossingsDTO">AgentCrossingsDTO</param>
+        /// <returns>AgentCrossingsResponseDTO</returns>
+        [HttpPost("InsertDebtAgentCrossing")]
+        public IActionResult InsertDebtAgentCrossing(AgentCrossingsDTO agentCrossingsDTO)
+        {
+            HttpResponse response;
+            try
+            {
+                string token = Request.Headers["Authorization"];
+                string userName = this.headerClaims.GetUserNameAuth(Request.Headers["Authorization"]);
+                AgentCrossingsResponseDTO result = agentCrossingsService.InsertDebtAgentCrossing(agentCrossingsDTO, userName, token);
 
                 if (result.IsValid)
                     return Ok(result);

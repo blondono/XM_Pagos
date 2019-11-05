@@ -16,7 +16,7 @@ namespace Infraestructure.Entity.Entities
         [ForeignKey("TypeCrossingsEntity")]
         public int TypeCrossingId { get; set; }
         public DateTime InitialValidity { get; set; }
-        public DateTime FinalValidity { get; set; }
+        public DateTime? FinalValidity { get; set; }
         public string Company { get; set; }
         public int Value { get; set; }
         public DateTime DueDate { get; set; }

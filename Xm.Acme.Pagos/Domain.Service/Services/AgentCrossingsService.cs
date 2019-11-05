@@ -240,7 +240,7 @@ namespace Domain.Service.Services
                         Company = g.Company,
                         Crossed = g.Crossed,
                         DueDate = g.DueDate.ToString("yyyy-MM-dd"),
-                        FinalValidity = g.FinalValidity.ToString("yyyy-MM-dd"),
+                        FinalValidity = (g.FinalValidity.HasValue ? g.FinalValidity.Value.ToString("yyyy-MM-dd") : string.Empty),
                         InitialValidity = g.InitialValidity.ToString("yyyy-MM-dd"),
                         TypeCrossing = g.TypeCrossingsEntity.Name,
                         TypeCrossingId = g.TypeCrossingId
