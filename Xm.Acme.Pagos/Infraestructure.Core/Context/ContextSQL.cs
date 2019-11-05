@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Infraestructure.Entity.Entities.ProcessFile;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infraestructure.Core.Context
 {
-    public class Context : DbContext
+    public class ContextSQL : DbContext
     {
-        public Context(DbContextOptions dbContextOptions)
+        public ContextSQL(DbContextOptions dbContextOptions)
            : base(dbContextOptions)
         {
         }
@@ -12,6 +13,7 @@ namespace Infraestructure.Core.Context
 
         #region DbSet Entities      
 
+        public DbSet<BankFileAdminEntity> BankFileAdminEntities { get; set; } 
         
         #endregion
 

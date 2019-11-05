@@ -93,7 +93,7 @@ namespace Applicacion.Pagos.WebApi
 
             #region Oracle
 
-            services.AddDbContext<Infraestructure.Core.Context.Context>(options =>
+            services.AddDbContext<Infraestructure.Core.Context.ContextSQL>(options =>
                options.UseOracle(Configuration.GetConnectionString("ConnectionStringOracle")));
 
             #endregion
@@ -120,25 +120,25 @@ namespace Applicacion.Pagos.WebApi
 
             #endregion
 
-            ////#region Job 
+            //#region Job 
 
-            ////// Add Quartz services singleton
-            //services.AddSingleton<IJobFactory, JobFactory>();
-            //services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
+            //// Add Quartz services singleton
+            services.AddSingleton<IJobFactory, JobFactory>();
+            services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
 
-            //// Add our job
-            //// services.AddSingleton<Job>();
+            // Add our job
+            // services.AddSingleton<Job>();
 
-            //services.AddSingleton<Job>();
-            //services.AddSingleton(new JobScheduleModel(
-            //    jobType: typeof(Job),
-            //    cronExpression: "0/20 * * * * ?")); // run every 5 seconds
-            //                                        // 0/10 * * * * ? * run every 10 seconds
+            services.AddSingleton<Job>();
+            services.AddSingleton(new JobScheduleModel(
+                jobType: typeof(Job),
+                cronExpression: "0/20 * * * * ?")); // run every 5 seconds
+                                                    // 0/10 * * * * ? * run every 10 seconds
 
-            //// Configure job actions
-            //services.AddHostedService<HostedService>();
+            // Configure job actions
+            services.AddHostedService<HostedService>();
 
-            ////#endregion
+            //#endregion
 
         }
 

@@ -11,4 +11,18 @@ namespace Common.Utils.Constant
             Pending = "Pendiente",
             Error = "Error";
     } 
+
+    public struct LoadFileType
+    {
+        public const string
+            Head = "Encabezado",
+            Detail = "Detalle";
+    }
+
+    public struct LoadFileOrigin
+    {
+        public const string
+            Multicash = "Multicash",
+            BankFile = "Archivo Banco";
+    }
 }

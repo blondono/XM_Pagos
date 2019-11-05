@@ -3,6 +3,7 @@ using System.Linq;
 using Infraestructure.Core.Context;
 using Infraestructure.Core.Repository;
 using Infraestructure.Core.UnitOfWork.Interface;
+using Infraestructure.Entity.Entities.ProcessFile;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,15 +13,17 @@ namespace Infraestructure.Core.UnitOfWork
     {
         #region Attributes       
 
-        private readonly Context.Context _context;
+        private readonly ContextSQL _context;
         private bool disposed = false;
+        private readonly IServiceProvider serv;
         #endregion
 
 
         #region Constructor
-        public UnitOfWork(Context.Context context)
+        public UnitOfWork(IServiceProvider serv)
         {
-            this._context = context;
+            var serviceScope = serv.CreateScope();
+            this._context = new ContextSQL(serviceScope.ServiceProvider.GetRequiredService<DbContextOptions<ContextSQL>>());
         }
         #endregion
 
@@ -28,9 +31,9 @@ namespace Infraestructure.Core.UnitOfWork
         #region Attributes
 
 
-        #region Load
+        #region ProcessFile
 
-        // private Repository<LoadLatestExpirationEntity> loadLatestExpirationRepository;
+        private Repository<BankFileAdminEntity> bankFileAdminRepository;
 
         #endregion
 
@@ -40,16 +43,18 @@ namespace Infraestructure.Core.UnitOfWork
 
         #region  Members
 
-        //public Repository<LoadLatestExpirationEntity> LoadLatestExpirationRepository
-        //{
-        //    get
-        //    {
-        //        if (this.loadLatestExpirationRepository == null)
-        //            this.loadLatestExpirationRepository = new Repository<LoadLatestExpirationEntity>(_context);
+        #region ProcessFile
+        public Repository<BankFileAdminEntity> BankFileAdminRepository
+        {
+            get
+            {
+                if (this.bankFileAdminRepository == null)
+                    this.bankFileAdminRepository = new Repository<BankFileAdminEntity>(_context);
 
-        //        return loadLatestExpirationRepository;
-        //    }
-        //}
+                return bankFileAdminRepository;
+            }
+        }
+        #endregion
 
         #endregion
 

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Infraestructure.Core.Migrations
 {
-    [DbContext(typeof(Infraestructure.Core.Context.Context))]
+    [DbContext(typeof(Infraestructure.Core.Context.ContextSQL))]
     partial class ContextSQLModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

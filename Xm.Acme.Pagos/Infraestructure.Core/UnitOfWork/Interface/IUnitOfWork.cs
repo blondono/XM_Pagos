@@ -1,14 +1,16 @@
 ﻿using System;
 using Infraestructure.Core.Repository;
+using Infraestructure.Entity.Entities.ProcessFile;
 
 namespace Infraestructure.Core.UnitOfWork.Interface
 {
     public interface IUnitOfWork : IDisposable
     {
 
-        #region Load
+        #region ProcessFile
 
-         //Repository<LoadLatestExpirationEntity> LoadLatestExpirationRepository { get;  }
+        Repository<BankFileAdminEntity> BankFileAdminRepository { get;  }
+
         #endregion
 
 

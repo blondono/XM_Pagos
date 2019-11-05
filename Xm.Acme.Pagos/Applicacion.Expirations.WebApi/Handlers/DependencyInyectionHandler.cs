@@ -1,4 +1,8 @@
 ﻿using Common.Utils.Utils.Interface;
+using Domain.Service.Services;
+using Domain.Service.Services.Interface;
+using Domain.Service.Services.Strategy;
+using Domain.Service.Services.Strategy.Behaviors;
 using Infraestructure.Core.Context;
 using Infraestructure.Core.Repository;
 using Infraestructure.Core.Repository.Interface;
@@ -30,7 +34,8 @@ namespace Applicacion.Pagos.WebApi.Handlers
             //services.AddTransient<IOracleRepository, OracleRepository>();
 
             // Domain
-            
+            services.AddTransient<IFtpFileService, FtpFileService>();
+
 
             // Common
             services.AddTransient<IHeaderClaims, HeaderClaims>();
