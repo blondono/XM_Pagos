@@ -6,6 +6,13 @@ namespace Infraestructure.Core.UnitOfWork.Interface
 {
     public interface IUnitOfWork : IDisposable
     {
+        #region AgentCrossings
+
+        Repository<TypeCrossingsEntity> TypeCrossingsRepository { get; }
+        Repository<AgentCrossingsEntity> AgentCrossingsRepository { get; }
+        Repository<CrossingsEntity> CrossingsRepository { get; }
+
+        #endregion
 
         #region ProcessFile
 
@@ -17,6 +24,7 @@ namespace Infraestructure.Core.UnitOfWork.Interface
 
         Repository<EquivalenceColumnEntity> EquivalenceColumnRepository { get; }
 
+        //Repository<LoadLatestExpirationEntity> LoadLatestExpirationRepository { get;  }
         #endregion
 
 

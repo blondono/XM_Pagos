@@ -41,6 +41,10 @@ namespace Applicacion.Pagos.WebApi.Handlers
             services.AddTransient<IHeaderClaims, HeaderClaims>();
             services.AddTransient<IRestService, RestService>();
 
+            // Agent Crossing
+            services.AddTransient<IAgentCrossingsService, AgentCrossingsService>();
+            services.AddTransient<IConfigurationService, ConfigurationService>();
+
             #endregion
         }
     }
