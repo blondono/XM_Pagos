@@ -116,17 +116,17 @@ namespace Applicacion.Pagos.WebApi
 
             //#region Job 
 
-            //// Add Quartz services singleton
-            services.AddSingleton<IJobFactory, JobFactory>();
-            services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
+            ////// Add Quartz services singleton
+            //services.AddSingleton<IJobFactory, JobFactory>();
+            //services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
 
-            // Add our job
-            // services.AddSingleton<Job>();
+            //// Add our job
+            //// services.AddSingleton<Job>();
 
-            services.AddSingleton<Job>();
-            services.AddSingleton(new JobScheduleModel(
-                jobType: typeof(Job),
-                cronExpression: "0/20 * * * * ?")); // run every 5 seconds
+            //services.AddSingleton<Job>();
+            //services.AddSingleton(new JobScheduleModel(
+            //    jobType: typeof(Job),
+            //    cronExpression: "0/20 * * * * ?")); // run every 5 seconds
                                                     // 0/10 * * * * ? * run every 10 seconds
 
             // Configure job actions
