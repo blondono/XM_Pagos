@@ -130,7 +130,7 @@ namespace Applicacion.Pagos.WebApi
                                                     // 0/10 * * * * ? * run every 10 seconds
 
             // Configure job actions
-            services.AddHostedService<HostedService>();
+            //services.AddHostedService<HostedService>();
 
             //#endregion
 
