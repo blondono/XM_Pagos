@@ -6,6 +6,7 @@ using Domain.Service.Services.Strategy;
 using Domain.Service.Services.Strategy.Behaviors;
 using Infraestructure.Core.UnitOfWork;
 using Infraestructure.Core.UnitOfWork.Interface;
+using Microsoft.Extensions.Configuration;
 using Quartz;
 using System;
 using System.Collections.Generic;
@@ -24,15 +25,17 @@ namespace Applicacion.Pagos.WebApi.Areas.Job
 
         public readonly IFtpFileService ftpFileService;
         public readonly IUnitOfWork unitOfWork;
+        public readonly IConfiguration configuration;
 
         #endregion
 
 
         #region Constructor
-        public Job( IFtpFileService pFtpFileService, IUnitOfWork pUnitOfWork)
+        public Job( IFtpFileService pFtpFileService, IUnitOfWork pUnitOfWork, IConfiguration pConfiguration)
         {
             unitOfWork = pUnitOfWork;
             ftpFileService = pFtpFileService;
+            configuration = pConfiguration;
         }
         #endregion
 
@@ -40,7 +43,7 @@ namespace Applicacion.Pagos.WebApi.Areas.Job
         #region Methods
         public Task Execute(IJobExecutionContext context)
         {
-            ProcessFile processFile = new ProcessFile(new ProcessMulticash(ftpFileService, unitOfWork));
+            ProcessFile processFile = new ProcessFile(new ProcessMulticash(ftpFileService, unitOfWork, configuration));
 
             processFile.ProcessMulticashFile();
             processFile.ProcessFileOccidente();
@@ -90,8 +93,6 @@ namespace Applicacion.Pagos.WebApi.Areas.Job
                     }
                 });
             }
-
-
 
             return Task.CompletedTask;
         }

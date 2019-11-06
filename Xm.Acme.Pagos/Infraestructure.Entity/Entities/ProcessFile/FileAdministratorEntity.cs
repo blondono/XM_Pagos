@@ -6,8 +6,8 @@ using System.Text;
 
 namespace Infraestructure.Entity.Entities.ProcessFile
 {
-    [Table("BankFileAdmin", Schema = "ProcessFile")]
-    public class BankFileAdminEntity
+    [Table("FileAdministrator", Schema = "ProcessFile")]
+    public class FileAdministratorEntity
     {
         [Key]
         public int BankFileAdminId { get; set; }
@@ -21,6 +21,8 @@ namespace Infraestructure.Entity.Entities.ProcessFile
         public string DetailFileName { get; set; }
 
         public string ReadFolder { get; set; }
+
+        public int StartLine { get; set; }
 
         public bool Status { get; set; }
     }

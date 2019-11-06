@@ -6,8 +6,8 @@ using System.Text;
 
 namespace Infraestructure.Entity.Entities.ProcessFile
 {
-    [Table("BankFileAdmin", Schema = "ProcessFile")]
-    public class BankLoadFileDataDetailEntity
+    [Table("FileDataDetail", Schema = "ProcessFile")]
+    public class FileDataDetailEntity
     {
         [Key]
         public int BankLoadFileDataDetailId { get; set; }
@@ -22,9 +22,11 @@ namespace Infraestructure.Entity.Entities.ProcessFile
 
         public int Balance { get; set; }
 
+        public int DetailQuantity { get; set; }
+
         [ForeignKey("BankLoadFileDataEntity")]
         public int BankLoadFileDataId { get; set; }
 
-        public BankLoadFileDataEntity BankLoadFileDataEntity { get; set; }
+        public FileDataEntity BankLoadFileDataEntity { get; set; }
     }
 }

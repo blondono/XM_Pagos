@@ -33,7 +33,10 @@ namespace Infraestructure.Core.UnitOfWork
 
         #region ProcessFile
 
-        private Repository<BankFileAdminEntity> bankFileAdminRepository;
+        private Repository<FileAdministratorEntity> fileAdministratorRepository;
+        private Repository<FileDataEntity> fileDataRepository;
+        private Repository<FileDataDetailEntity> fileDataDetailRepository;
+        private Repository<EquivalenceColumnEntity> equivalenceColumnRepository;
 
         #endregion
 
@@ -44,14 +47,48 @@ namespace Infraestructure.Core.UnitOfWork
         #region  Members
 
         #region ProcessFile
-        public Repository<BankFileAdminEntity> BankFileAdminRepository
+
+        public Repository<FileAdministratorEntity> FileAdministratorRepository
         {
             get
             {
-                if (this.bankFileAdminRepository == null)
-                    this.bankFileAdminRepository = new Repository<BankFileAdminEntity>(_context);
+                if (this.fileAdministratorRepository == null)
+                    this.fileAdministratorRepository = new Repository<FileAdministratorEntity>(_context);
 
-                return bankFileAdminRepository;
+                return fileAdministratorRepository;
+            }
+        }
+
+        public Repository<FileDataEntity> FileDataRepository
+        {
+            get
+            {
+                if (this.fileDataRepository == null)
+                    this.fileDataRepository = new Repository<FileDataEntity>(_context);
+
+                return fileDataRepository;
+            }
+        }
+
+        public Repository<FileDataDetailEntity> FileDataDetailRepository
+        {
+            get
+            {
+                if (this.fileDataDetailRepository == null)
+                    this.fileDataDetailRepository = new Repository<FileDataDetailEntity>(_context);
+
+                return fileDataDetailRepository;
+            }
+        }
+
+        public Repository<EquivalenceColumnEntity> EquivalenceColumnRepository
+        {
+            get
+            {
+                if (this.equivalenceColumnRepository == null)
+                    this.equivalenceColumnRepository = new Repository<EquivalenceColumnEntity>(_context);
+
+                return equivalenceColumnRepository;
             }
         }
         #endregion

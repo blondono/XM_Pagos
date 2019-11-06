@@ -6,13 +6,15 @@ using System.Text;
 
 namespace Infraestructure.Entity.Entities.ProcessFile
 {
-    [Table("BankFileAdmin", Schema = "ProcessFile")]
-    public class BankLoadFileDataEntity
+    [Table("FileData", Schema = "ProcessFile")]
+    public class FileDataEntity
     {
         [Key]
         public int BankLoadFileDataId { get; set; }
 
         public string BusinessCode { get; set; }
+
+        public string AccountNumber { get; set; }
 
         public string Bank { get; set; }
 
@@ -22,6 +24,6 @@ namespace Infraestructure.Entity.Entities.ProcessFile
 
         public string Origin { get; set; }
 
-        public ICollection<BankLoadFileDataDetailEntity> BankLoadFileDataDetail { get; set; }
+        public ICollection<FileDataDetailEntity> BankLoadFileDataDetail { get; set; }
     }
 }

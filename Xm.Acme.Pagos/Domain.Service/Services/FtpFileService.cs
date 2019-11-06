@@ -20,9 +20,10 @@ namespace Domain.Service.Services
 
         #region Constructor
 
-        public FtpFileService(IRestService pRestService)
+        public FtpFileService(IRestService pRestService, IConfiguration pConfiguration)
         {
             this.restService = pRestService;
+            this.configuration = pConfiguration;
         }
 
         #endregion

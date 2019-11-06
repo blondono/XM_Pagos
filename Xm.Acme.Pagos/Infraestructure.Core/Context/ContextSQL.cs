@@ -13,7 +13,7 @@ namespace Infraestructure.Core.Context
 
         #region DbSet Entities      
 
-        public DbSet<BankFileAdminEntity> BankFileAdminEntities { get; set; } 
+        public DbSet<FileAdministratorEntity> BankFileAdminEntities { get; set; } 
         
         #endregion
 

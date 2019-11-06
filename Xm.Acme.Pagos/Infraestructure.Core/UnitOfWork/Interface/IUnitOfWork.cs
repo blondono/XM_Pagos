@@ -9,7 +9,13 @@ namespace Infraestructure.Core.UnitOfWork.Interface
 
         #region ProcessFile
 
-        Repository<BankFileAdminEntity> BankFileAdminRepository { get;  }
+        Repository<FileAdministratorEntity> FileAdministratorRepository { get; }
+
+        Repository<FileDataEntity> FileDataRepository { get; }
+
+        Repository<FileDataDetailEntity> FileDataDetailRepository { get; }
+
+        Repository<EquivalenceColumnEntity> EquivalenceColumnRepository { get; }
 
         #endregion
 
