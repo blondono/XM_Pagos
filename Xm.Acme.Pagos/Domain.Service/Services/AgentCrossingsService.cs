@@ -9,7 +9,7 @@ using Common.Utils.Excepcions;
 using Domain.Service.DTO.Crossing;
 using Domain.Service.Services.Interface;
 using Infraestructure.Core.UnitOfWork.Interface;
-using Infraestructure.Entity.Entities;
+using Infraestructure.Entity.Entities.AgentCrossings;
 
 namespace Domain.Service.Services
 {
@@ -222,17 +222,6 @@ namespace Domain.Service.Services
             };
             string isBeneficiary = configurationService.GetAgentBeneficiary(filters, token).Find(x => x == agent);
             return !string.IsNullOrEmpty(isBeneficiary);
-        }
-
-        /// <summary>
-        /// update a Agent Crossing record
-        /// </summary>
-        /// <param name="agentCrossingsDTO">agentCrossingsDTO</param>
-        /// <param name="user">user</param>
-        /// <returns>bool</returns>
-        public bool UpdateAgentCrossing(AgentCrossingsDTO agentCrossingsDTO, string user)
-        {
-            throw new NotImplementedException();
         }
 
         /// <summary>

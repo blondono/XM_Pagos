@@ -1,4 +1,4 @@
-﻿using Infraestructure.Entity.Entities;
+﻿using Infraestructure.Entity.Entities.AgentCrossings;
 using Infraestructure.Entity.Entities.ProcessFile;
 using Microsoft.EntityFrameworkCore;
 

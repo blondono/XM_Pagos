@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace Infraestructure.Entity.Entities
+namespace Infraestructure.Entity.Entities.AgentCrossings
 {
     [Table("TypeCrossings", Schema = "Crossing")]
     public class TypeCrossingsEntity : AuditEntity
