@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Infraestructure.Core.Migrations
 {
-    public partial class CreateCrossingTable : Migration
+    public partial class UpdateTables : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -41,32 +41,27 @@ namespace Infraestructure.Core.Migrations
                     CreationUser = table.Column<string>(nullable: true),
                     ModificationDate = table.Column<DateTime>(nullable: true),
                     ModificationUser = table.Column<string>(nullable: true),
-                    Business = table.Column<string>(nullable: true),
+                    CrossingId = table.Column<int>(nullable: false),
                     Agent = table.Column<string>(nullable: true),
-                    TypeCrossingId = table.Column<int>(nullable: false),
-                    InitialValidity = table.Column<DateTime>(nullable: false),
-                    FinalValidity = table.Column<DateTime>(nullable: false),
-                    Company = table.Column<string>(nullable: true),
-                    DueDate = table.Column<DateTime>(nullable: false),
-                    Crossed = table.Column<bool>(nullable: true)
+                    TypeCrossingsEntityTypeCrossingId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AgentCrossings", x => x.AgentCrossingId);
                     table.ForeignKey(
-                        name: "FK_AgentCrossings_TypeCrossings_TypeCrossingId",
-                        column: x => x.TypeCrossingId,
+                        name: "FK_AgentCrossings_TypeCrossings_TypeCrossingsEntityTypeCrossingId",
+                        column: x => x.TypeCrossingsEntityTypeCrossingId,
                         principalSchema: "Crossing",
                         principalTable: "TypeCrossings",
                         principalColumn: "TypeCrossingId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_AgentCrossings_TypeCrossingId",
+                name: "IX_AgentCrossings_TypeCrossingsEntityTypeCrossingId",
                 schema: "Crossing",
                 table: "AgentCrossings",
-                column: "TypeCrossingId");
+                column: "TypeCrossingsEntityTypeCrossingId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

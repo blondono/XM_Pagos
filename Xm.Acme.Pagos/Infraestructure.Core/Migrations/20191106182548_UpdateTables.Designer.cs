@@ -4,14 +4,16 @@ using Infraestructure.Core.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Infraestructure.Core.Migrations
 {
     [DbContext(typeof(DBContext))]
-    partial class DBContextModelSnapshot : ModelSnapshot
+    [Migration("20191106182548_UpdateTables")]
+    partial class UpdateTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,52 +39,13 @@ namespace Infraestructure.Core.Migrations
 
                     b.Property<string>("ModificationUser");
 
+                    b.Property<int?>("TypeCrossingsEntityTypeCrossingId");
+
                     b.HasKey("AgentCrossingId");
 
-                    b.HasIndex("CrossingId");
+                    b.HasIndex("TypeCrossingsEntityTypeCrossingId");
 
                     b.ToTable("AgentCrossings","Crossing");
-                });
-
-            modelBuilder.Entity("Infraestructure.Entity.Entities.CrossingsEntity", b =>
-                {
-                    b.Property<int>("CrossingId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Business");
-
-                    b.Property<string>("Company");
-
-                    b.Property<DateTime?>("CreationDate");
-
-                    b.Property<string>("CreationUser");
-
-                    b.Property<bool?>("Crossed");
-
-                    b.Property<DateTime>("DueDate");
-
-                    b.Property<bool>("Enabled");
-
-                    b.Property<DateTime?>("FinalValidity");
-
-                    b.Property<bool?>("FullPaymentDebts");
-
-                    b.Property<DateTime>("InitialValidity");
-
-                    b.Property<DateTime?>("ModificationDate");
-
-                    b.Property<string>("ModificationUser");
-
-                    b.Property<int>("TypeCrossingId");
-
-                    b.Property<int>("Value");
-
-                    b.HasKey("CrossingId");
-
-                    b.HasIndex("TypeCrossingId");
-
-                    b.ToTable("Crossings","Crossing");
                 });
 
             modelBuilder.Entity("Infraestructure.Entity.Entities.TypeCrossingsEntity", b =>
@@ -110,18 +73,9 @@ namespace Infraestructure.Core.Migrations
 
             modelBuilder.Entity("Infraestructure.Entity.Entities.AgentCrossingsEntity", b =>
                 {
-                    b.HasOne("Infraestructure.Entity.Entities.CrossingsEntity", "CrossingsEntity")
+                    b.HasOne("Infraestructure.Entity.Entities.TypeCrossingsEntity")
                         .WithMany("AgentCrossingsEntities")
-                        .HasForeignKey("CrossingId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Infraestructure.Entity.Entities.CrossingsEntity", b =>
-                {
-                    b.HasOne("Infraestructure.Entity.Entities.TypeCrossingsEntity", "TypeCrossingsEntity")
-                        .WithMany("CrossingsEntities")
-                        .HasForeignKey("TypeCrossingId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("TypeCrossingsEntityTypeCrossingId");
                 });
 #pragma warning restore 612, 618
         }

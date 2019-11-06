@@ -40,6 +40,7 @@ namespace Applicacion.IntegrationOracle.WebApi.Handlers
 
             // Agent Crossing
             services.AddTransient<IAgentCrossingsService, AgentCrossingsService>();
+            services.AddTransient<IConfigurationService, ConfigurationService>();
 
             #endregion
         }

@@ -10,6 +10,7 @@ namespace Infraestructure.Core.UnitOfWork.Interface
 
         Repository<TypeCrossingsEntity> TypeCrossingsRepository { get; }
         Repository<AgentCrossingsEntity> AgentCrossingsRepository { get; }
+        Repository<CrossingsEntity> CrossingsRepository { get; }
 
         #endregion
 

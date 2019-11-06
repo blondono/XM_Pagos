@@ -10,7 +10,8 @@ namespace Common.Utils.Enums
         {
             Successfull = 1,
             Pending = 2,
-            Error = 3
+            Error = 3,
+            Warning = 4
         }
     }
 }

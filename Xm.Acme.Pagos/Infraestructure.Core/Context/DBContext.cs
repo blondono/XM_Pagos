@@ -16,6 +16,7 @@ namespace Infraestructure.Core.Context
         #region Crossing
         public DbSet<TypeCrossingsEntity> TypeCrossingsEntity { get; set; }
         public DbSet<AgentCrossingsEntity> AgentCrossingsEntity { get; set; }
+        public DbSet<CrossingsEntity> CrossingsEntity { get; set; }
         #endregion
 
         #endregion

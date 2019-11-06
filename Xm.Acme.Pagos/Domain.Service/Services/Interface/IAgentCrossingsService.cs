@@ -10,12 +10,13 @@ namespace Domain.Service.Services.Interface
         #region AgentCrossings
 
         /// <summary>
-        /// Create a Agent Crossing record
+        /// Create a Agent Crossing custody
         /// </summary>
         /// <param name="agentCrossingsDTO">agentCrossingsDTO</param>
         /// <param name="user">user</param>
+        /// <param name="token"></param>
         /// <returns>bool</returns>
-        bool InsertAgentCrossing(AgentCrossingsDTO agentCrossingsDTO, string user);
+        AgentCrossingsResponseDTO InsertCustodyAgentCrossing(AgentCrossingsDTO agentCrossingsDTO, string user, string token);
 
         /// <summary>
         /// update a Agent Crossing record
@@ -28,18 +29,37 @@ namespace Domain.Service.Services.Interface
         /// <summary>
         /// update a Agent Crossing record
         /// </summary>
-        /// <param name="agentCrossingsId">agentCrossingsId</param>
+        /// <param name="crossingsId">crossingsId</param>
         /// <param name="user">user</param>
         /// <returns>bool</returns>
-        bool DeleteAgentCrossing(int agentCrossingsId, string user);
+        bool DeleteAgentCrossing(int crossingsId, string user);
 
         /// <summary>
         /// Get all Agent Crossings by filters
         /// </summary>
         /// <param name="filters">AgentCrossingsFilterDTO</param>
         /// <returns>List<AgentCrossingsDTO></returns>
-        IEnumerable<AgentCrossingsDTO> GetAgentCrossing(AgentCrossingsFilterDTO filters);
-        
+        IEnumerable<AgentCrossingsResultDTO> GetAgentCrossing(AgentCrossingsFilterDTO filters);
+
+        /// <summary>
+        /// Create a agent crossing debt
+        /// </summary>
+        /// <param name="agentCrossingsDTO"></param>
+        /// <param name="user"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        AgentCrossingsResponseDTO InsertDebtAgentCrossing(AgentCrossingsDTO agentCrossingsDTO, string user, string token);
+
+        /// <summary>
+        /// Return if agent is beneficiary
+        /// </summary>
+        /// <param name="agent"></param>
+        /// <param name="business"></param>
+        /// <param name="dueDate"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        bool GetAgentBeneficiary(string agent, string business, string token);
+
         #endregion
 
         #region TypeCrossings

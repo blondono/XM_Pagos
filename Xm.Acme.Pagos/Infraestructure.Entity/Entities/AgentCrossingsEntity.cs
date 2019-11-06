@@ -11,16 +11,9 @@ namespace Infraestructure.Entity.Entities
     {
         [Key]
         public int AgentCrossingId { get; set; }
-        public string Business { get; set; }
+        [ForeignKey("CrossingsEntity")]
+        public int CrossingId { get; set; }
         public string Agent { get; set; }
-        [ForeignKey("TypeCrossingsEntity")]
-        public int TypeCrossingId { get; set; }
-        public DateTime InitialValidity { get; set; }
-        public DateTime FinalValidity { get; set; }
-        public string Company { get; set; }
-        public DateTime DueDate { get; set; }
-        public bool? Crossed { get; set; }
-
-        public TypeCrossingsEntity TypeCrossingsEntity { get; set; }
+        public CrossingsEntity CrossingsEntity { get; set; }
     }
 }
