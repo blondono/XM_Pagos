@@ -24,7 +24,7 @@ namespace Infraestructure.Core.UnitOfWork
         public UnitOfWork(IServiceProvider serv)
         {
             var serviceScope = serv.CreateScope();
-            this._context = new ContextSQL(serviceScope.ServiceProvider.GetRequiredService<DbContextOptions<ContextSQL>>());
+            this._context = new DBContext(serviceScope.ServiceProvider.GetRequiredService<DbContextOptions<DBContext>>());
         }
         #endregion
 
@@ -87,6 +87,9 @@ namespace Infraestructure.Core.UnitOfWork
                 return crossingsRepository;
             }
         }
+
+        #endregion
+
         #region ProcessFile
 
         public Repository<FileAdministratorEntity> FileAdministratorRepository

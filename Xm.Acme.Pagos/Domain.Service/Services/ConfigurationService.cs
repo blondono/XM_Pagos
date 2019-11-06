@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Domain.Service.DTO.Configuration;
 using Domain.Service.DTO.Crossing;
 using Domain.Service.Services.Interface;
 using Infraestructure.Core.RestServices.Interface;

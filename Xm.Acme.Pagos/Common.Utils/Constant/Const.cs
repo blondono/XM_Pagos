@@ -25,7 +25,7 @@ namespace Common.Utils.Constant
             Multicash = "Multicash",
             BankFile = "Archivo Banco";
     }
-    }
+    
     public struct AgentValidation
     {
         public const string
