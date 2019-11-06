@@ -29,10 +29,10 @@ namespace Domain.Service.Services.Interface
         /// <summary>
         /// update a Agent Crossing record
         /// </summary>
-        /// <param name="agentCrossingsId">agentCrossingsId</param>
+        /// <param name="crossingsId">crossingsId</param>
         /// <param name="user">user</param>
         /// <returns>bool</returns>
-        bool DeleteAgentCrossing(int agentCrossingsId, string user);
+        bool DeleteAgentCrossing(int crossingsId, string user);
 
         /// <summary>
         /// Get all Agent Crossings by filters
@@ -49,6 +49,16 @@ namespace Domain.Service.Services.Interface
         /// <param name="token"></param>
         /// <returns></returns>
         AgentCrossingsResponseDTO InsertDebtAgentCrossing(AgentCrossingsDTO agentCrossingsDTO, string user, string token);
+
+        /// <summary>
+        /// Return if agent is beneficiary
+        /// </summary>
+        /// <param name="agent"></param>
+        /// <param name="business"></param>
+        /// <param name="dueDate"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        bool GetAgentBeneficiary(string agent, string business, string token);
 
         #endregion
 

@@ -32,6 +32,7 @@ namespace Infraestructure.Core.UnitOfWork
         #region Crossing
         private Repository<TypeCrossingsEntity> typeCrossingsRepository;
         private Repository<AgentCrossingsEntity> agentCrossingsRepository;
+        private Repository<CrossingsEntity> crossingsRepository;
         #endregion
 
         #region Load
@@ -67,6 +68,17 @@ namespace Infraestructure.Core.UnitOfWork
                     this.agentCrossingsRepository = new Repository<AgentCrossingsEntity>(_context);
 
                 return agentCrossingsRepository;
+            }
+        }
+
+        public Repository<CrossingsEntity> CrossingsRepository
+        {
+            get
+            {
+                if (this.crossingsRepository == null)
+                    this.crossingsRepository = new Repository<CrossingsEntity>(_context);
+
+                return crossingsRepository;
             }
         }
 

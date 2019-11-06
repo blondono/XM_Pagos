@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infraestructure.Core.Migrations
 {
     [DbContext(typeof(DBContext))]
-    [Migration("20191101171021_UpdateAgentCrossingTable")]
-    partial class UpdateAgentCrossingTable
+    [Migration("20191106182729_CreateCrossingTable")]
+    partial class CreateCrossingTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -29,6 +29,29 @@ namespace Infraestructure.Core.Migrations
 
                     b.Property<string>("Agent");
 
+                    b.Property<DateTime?>("CreationDate");
+
+                    b.Property<string>("CreationUser");
+
+                    b.Property<int>("CrossingId");
+
+                    b.Property<DateTime?>("ModificationDate");
+
+                    b.Property<string>("ModificationUser");
+
+                    b.HasKey("AgentCrossingId");
+
+                    b.HasIndex("CrossingId");
+
+                    b.ToTable("AgentCrossings","Crossing");
+                });
+
+            modelBuilder.Entity("Infraestructure.Entity.Entities.CrossingsEntity", b =>
+                {
+                    b.Property<int>("CrossingId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
                     b.Property<string>("Business");
 
                     b.Property<string>("Company");
@@ -41,7 +64,9 @@ namespace Infraestructure.Core.Migrations
 
                     b.Property<DateTime>("DueDate");
 
-                    b.Property<DateTime>("FinalValidity");
+                    b.Property<DateTime?>("FinalValidity");
+
+                    b.Property<bool?>("FullPaymentDebts");
 
                     b.Property<DateTime>("InitialValidity");
 
@@ -53,11 +78,11 @@ namespace Infraestructure.Core.Migrations
 
                     b.Property<int>("Value");
 
-                    b.HasKey("AgentCrossingId");
+                    b.HasKey("CrossingId");
 
                     b.HasIndex("TypeCrossingId");
 
-                    b.ToTable("AgentCrossings","Crossing");
+                    b.ToTable("Crossings","Crossing");
                 });
 
             modelBuilder.Entity("Infraestructure.Entity.Entities.TypeCrossingsEntity", b =>
@@ -85,8 +110,16 @@ namespace Infraestructure.Core.Migrations
 
             modelBuilder.Entity("Infraestructure.Entity.Entities.AgentCrossingsEntity", b =>
                 {
-                    b.HasOne("Infraestructure.Entity.Entities.TypeCrossingsEntity", "TypeCrossingsEntity")
+                    b.HasOne("Infraestructure.Entity.Entities.CrossingsEntity", "CrossingsEntity")
                         .WithMany("AgentCrossingsEntities")
+                        .HasForeignKey("CrossingId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Infraestructure.Entity.Entities.CrossingsEntity", b =>
+                {
+                    b.HasOne("Infraestructure.Entity.Entities.TypeCrossingsEntity", "TypeCrossingsEntity")
+                        .WithMany("CrossingsEntities")
                         .HasForeignKey("TypeCrossingId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

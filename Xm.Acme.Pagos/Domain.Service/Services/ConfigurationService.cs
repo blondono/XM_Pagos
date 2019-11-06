@@ -36,7 +36,7 @@ namespace Domain.Service.Services
             Dictionary<string, string> headers = new Dictionary<string, string>();
             headers.Add("Authorization", token);
 
-            List<DateTime> dueDates = restService.GetRestServiceAsync<List<DateTime>>((url + listController),
+            List<DateTime> dueDates = restService.GetRestServiceAsync<List<DateTime>>((url + "/" + listController),
                                                                                       (listMethod + business),
                                                                                       new Dictionary<string, string>(),
                                                                                       headers).Result;
@@ -50,7 +50,7 @@ namespace Domain.Service.Services
             string url = conf.GetSection("Url").Value;
             IConfiguration listSection = conf.GetSection("Load");
             string listController = listSection.GetSection("Controller").Value;
-            string listMethod = listSection.GetSection("GetDateExpirationByBusiness").Value;
+            string listMethod = listSection.GetSection("GetAgentBeneficiary").Value;
 
             Dictionary<string, string> headers = new Dictionary<string, string>();
             headers.Add("Authorization", token);

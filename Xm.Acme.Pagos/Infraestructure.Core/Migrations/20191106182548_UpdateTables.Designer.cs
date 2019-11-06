@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infraestructure.Core.Migrations
 {
     [DbContext(typeof(DBContext))]
-    [Migration("20191105195356_UpdateAgentCrossingFinalVality")]
-    partial class UpdateAgentCrossingFinalVality
+    [Migration("20191106182548_UpdateTables")]
+    partial class UpdateTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -29,35 +29,21 @@ namespace Infraestructure.Core.Migrations
 
                     b.Property<string>("Agent");
 
-                    b.Property<string>("Business");
-
-                    b.Property<string>("Company");
-
                     b.Property<DateTime?>("CreationDate");
 
                     b.Property<string>("CreationUser");
 
-                    b.Property<bool?>("Crossed");
-
-                    b.Property<DateTime>("DueDate");
-
-                    b.Property<DateTime?>("FinalValidity");
-
-                    b.Property<bool?>("FullPaymentDebts");
-
-                    b.Property<DateTime>("InitialValidity");
+                    b.Property<int>("CrossingId");
 
                     b.Property<DateTime?>("ModificationDate");
 
                     b.Property<string>("ModificationUser");
 
-                    b.Property<int>("TypeCrossingId");
-
-                    b.Property<int>("Value");
+                    b.Property<int?>("TypeCrossingsEntityTypeCrossingId");
 
                     b.HasKey("AgentCrossingId");
 
-                    b.HasIndex("TypeCrossingId");
+                    b.HasIndex("TypeCrossingsEntityTypeCrossingId");
 
                     b.ToTable("AgentCrossings","Crossing");
                 });
@@ -87,10 +73,9 @@ namespace Infraestructure.Core.Migrations
 
             modelBuilder.Entity("Infraestructure.Entity.Entities.AgentCrossingsEntity", b =>
                 {
-                    b.HasOne("Infraestructure.Entity.Entities.TypeCrossingsEntity", "TypeCrossingsEntity")
+                    b.HasOne("Infraestructure.Entity.Entities.TypeCrossingsEntity")
                         .WithMany("AgentCrossingsEntities")
-                        .HasForeignKey("TypeCrossingId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("TypeCrossingsEntityTypeCrossingId");
                 });
 #pragma warning restore 612, 618
         }

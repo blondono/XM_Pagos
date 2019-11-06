@@ -38,6 +38,23 @@ namespace Applicacion.Pagos.WebApi.Controllers
 
         #region Agent Crossings
 
+        [HttpGet("GetAgentActive")]
+        public IActionResult GetAgentActive(string agent, string business)
+        {
+            HttpResponse response;
+
+            try
+            {
+                string token = Request.Headers["Authorization"];
+                bool result = agentCrossingsService.GetAgentBeneficiary(agent, business, token);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
+        }
+
         /// <summary>
         /// Get all agent crossings  by filters
         /// </summary>
@@ -108,6 +125,31 @@ namespace Applicacion.Pagos.WebApi.Controllers
                     return Ok(result);
                 else
                     return BadRequest(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
+        }
+
+        /// <summary>
+        /// Delete agent crossing
+        /// </summary>
+        /// <param name="crossingId"></param>
+        /// <returns></returns>
+        [HttpDelete("DeleteAgentCrossing")]
+        public IActionResult DeleteAgentCrossing(int crossingId)
+        {
+            HttpResponse response;
+            try
+            {
+                userName = this.headerClaims.GetUserNameAuth(Request.Headers["Authorization"]);
+                bool result = agentCrossingsService.DeleteAgentCrossing(crossingId, userName);
+
+                if (result)
+                    return Ok();
+                else
+                    return BadRequest();
             }
             catch (Exception ex)
             {

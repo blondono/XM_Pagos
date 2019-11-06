@@ -14,6 +14,6 @@ namespace Infraestructure.Entity.Entities
         public string Name { get; set; }
         public bool Enable { get; set; }
 
-        public ICollection<AgentCrossingsEntity> AgentCrossingsEntities { get; set; }
+        public ICollection<CrossingsEntity> CrossingsEntities { get; set; }
     }
 }

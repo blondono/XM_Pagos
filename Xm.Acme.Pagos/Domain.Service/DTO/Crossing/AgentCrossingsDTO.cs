@@ -8,7 +8,7 @@ namespace Domain.Service.DTO.Crossing
     {
         public int AgentCrossingId { get; set; }
         public string Business { get; set; }
-        public string Agent { get; set; }
+        public List<string> Agent { get; set; }
         public int TypeCrossingId { get; set; }
         public string TypeCrossing { get; set; }
         public DateTime InitialValidity { get; set; }

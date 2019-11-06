@@ -2,23 +2,24 @@
 
 namespace Infraestructure.Core.Migrations
 {
-    public partial class UpdateAgentCrossingFullPayment : Migration
+    public partial class AddEnableColumnCrossingTable : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<bool>(
-                name: "FullPaymentDebts",
+                name: "Enabled",
                 schema: "Crossing",
-                table: "AgentCrossings",
-                nullable: true);
+                table: "Crossings",
+                nullable: false,
+                defaultValue: false);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "FullPaymentDebts",
+                name: "Enabled",
                 schema: "Crossing",
-                table: "AgentCrossings");
+                table: "Crossings");
         }
     }
 }
