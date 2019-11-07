@@ -4,7 +4,7 @@ using Infraestructure.Core.Context;
 using Infraestructure.Core.Repository;
 using Infraestructure.Core.UnitOfWork.Interface;
 using Infraestructure.Entity.Entities.ProcessFile;
-using Infraestructure.Entity.Entities;
+using Infraestructure.Entity.Entities.AgentCrossings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 

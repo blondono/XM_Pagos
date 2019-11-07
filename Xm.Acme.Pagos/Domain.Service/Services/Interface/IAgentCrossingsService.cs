@@ -17,15 +17,7 @@ namespace Domain.Service.Services.Interface
         /// <param name="token"></param>
         /// <returns>bool</returns>
         AgentCrossingsResponseDTO InsertCustodyAgentCrossing(AgentCrossingsDTO agentCrossingsDTO, string user, string token);
-
-        /// <summary>
-        /// update a Agent Crossing record
-        /// </summary>
-        /// <param name="agentCrossingsDTO">agentCrossingsDTO</param>
-        /// <param name="user">user</param>
-        /// <returns>bool</returns>
-        bool UpdateAgentCrossing(AgentCrossingsDTO agentCrossingsDTO, string user);
-
+        
         /// <summary>
         /// update a Agent Crossing record
         /// </summary>

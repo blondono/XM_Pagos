@@ -1,6 +1,6 @@
 ﻿using System;
 using Infraestructure.Core.Repository;
-using Infraestructure.Entity.Entities;
+using Infraestructure.Entity.Entities.AgentCrossings;
 using Infraestructure.Entity.Entities.ProcessFile;
 
 namespace Infraestructure.Core.UnitOfWork.Interface

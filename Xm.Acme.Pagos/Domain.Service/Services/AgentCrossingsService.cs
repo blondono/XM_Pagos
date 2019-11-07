@@ -227,17 +227,6 @@ namespace Domain.Service.Services
         /// <summary>
         /// update a Agent Crossing record
         /// </summary>
-        /// <param name="agentCrossingsDTO">agentCrossingsDTO</param>
-        /// <param name="user">user</param>
-        /// <returns>bool</returns>
-        public bool UpdateAgentCrossing(AgentCrossingsDTO agentCrossingsDTO, string user)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// update a Agent Crossing record
-        /// </summary>
         /// <param name="agentCrossingsId">agentCrossingsId</param>
         /// <param name="user">user</param>
         /// <returns>bool</returns>
