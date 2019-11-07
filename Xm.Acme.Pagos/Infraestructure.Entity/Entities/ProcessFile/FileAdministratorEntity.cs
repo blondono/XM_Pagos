@@ -7,7 +7,7 @@ using System.Text;
 namespace Infraestructure.Entity.Entities.ProcessFile
 {
     [Table("FileAdministrator", Schema = "ProcessFile")]
-    public class FileAdministratorEntity
+    public class FileAdministratorEntity : AuditEntity
     {
         [Key]
         public int BankFileAdminId { get; set; }

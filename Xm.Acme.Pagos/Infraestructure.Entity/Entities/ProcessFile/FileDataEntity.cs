@@ -7,7 +7,7 @@ using System.Text;
 namespace Infraestructure.Entity.Entities.ProcessFile
 {
     [Table("FileData", Schema = "ProcessFile")]
-    public class FileDataEntity
+    public class FileDataEntity : AuditEntity
     {
         [Key]
         public int BankLoadFileDataId { get; set; }
@@ -23,6 +23,8 @@ namespace Infraestructure.Entity.Entities.ProcessFile
         public string Type { get; set; }
 
         public string Origin { get; set; }
+
+        public int DetailQuantity { get; set; }
 
         public ICollection<FileDataDetailEntity> BankLoadFileDataDetail { get; set; }
     }

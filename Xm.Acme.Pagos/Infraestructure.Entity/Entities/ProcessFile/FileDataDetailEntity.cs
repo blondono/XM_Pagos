@@ -22,8 +22,6 @@ namespace Infraestructure.Entity.Entities.ProcessFile
 
         public int Balance { get; set; }
 
-        public int DetailQuantity { get; set; }
-
         [ForeignKey("BankLoadFileDataEntity")]
         public int BankLoadFileDataId { get; set; }
 

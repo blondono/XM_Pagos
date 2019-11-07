@@ -1,4 +1,5 @@
 ﻿using Common.Utils.Constant;
+using Domain.Service.DTO.Configuration;
 using Domain.Service.Services.Interface;
 using Infraestructure.Core.UnitOfWork.Interface;
 using Infraestructure.Entity.Entities.ProcessFile;
@@ -18,15 +19,17 @@ namespace Domain.Service.Services.Strategy.Behaviors
         public readonly IFtpFileService ftpFileService;
         public readonly IUnitOfWork unitOfWork;
         public readonly IConfiguration configuration;
+        public readonly IConfigurationService configurationService;
 
         #endregion
 
         #region Constructor
-        public ProcessMulticash(IFtpFileService pFtpFileService, IUnitOfWork pUnitOfWork, IConfiguration pConfiguration)
+        public ProcessMulticash(IFtpFileService pFtpFileService, IUnitOfWork pUnitOfWork, IConfiguration pConfiguration, IConfigurationService pConfigurationService)
         {
             this.ftpFileService = pFtpFileService;
             this.unitOfWork = pUnitOfWork;
             this.configuration = pConfiguration;
+            this.configurationService = pConfigurationService;
         }
 
         #endregion
@@ -51,7 +54,81 @@ namespace Domain.Service.Services.Strategy.Behaviors
                 FileDataEntity fileDataHead = ProcessHead(fileAdmin, conf, columnsFile);
 
                 string accountNumber = fileDataHead.AccountNumber;
-                FileDataEntity fileDataDetail = ProcessDetail(fileAdmin, conf, columnsFile/*, fileDataHead*/);
+
+                List<AccountBankResponseDTO> listAccounts = configurationService.GetListBankAccount();
+
+                if (listAccounts.Any(x => x.estado.ToUpper().Equals("ACTIVA")
+                        && x.numeroCuenta.ToUpper().Equals(accountNumber)
+                        && x.claseCuenta.ToUpper().Equals("PROPIA")
+                        && x.nombreEntidadBancaria.ToUpper().Equals(fileAdmin.BankCode.ToUpper())))
+                {
+                    FileDataEntity fileDataDetail = ProcessDetail(fileAdmin, conf, columnsFile/*, fileDataHead*/);
+
+                    if (fileDataHead.DetailQuantity == fileDataDetail.DetailQuantity)
+                    {
+                        int creditValueHead = fileDataHead.BankLoadFileDataDetail.First().CreditValue;
+                        int debitValueHead = fileDataHead.BankLoadFileDataDetail.First().DebitValue;
+                        int creditValueDetail = fileDataDetail.BankLoadFileDataDetail.Sum(x => x.CreditValue);
+                        int debitValueDetail = fileDataDetail.BankLoadFileDataDetail.Sum(x => x.DebitValue);
+
+                        if (creditValueHead == creditValueDetail)
+                        {
+                            if (debitValueHead == debitValueDetail)
+                            {
+                                /// TODO: Obtener los codigos xm y buscar su homonimo en la carga realizada
+                                if (true) // TODA LA INFO CARGADA PERTENECE A CODIGOS XM
+                                {
+                                    bool valid = true;
+                                    List<string> listXMCodes = new List<string>();
+                                    fileDataDetail.BankLoadFileDataDetail.ToList().ForEach(item =>
+                                    {
+                                        var code = listXMCodes.FirstOrDefault(x => x == item.TransactionName);
+
+                                        if (code != null)
+                                        {
+                                            item.TransactionName = $"{item.TransactionName} - {code}";
+                                        }
+                                        else
+                                        {
+                                            valid = false;
+                                            /// TODO: Registrar auditoria de que no se encontro codigo XM
+                                        }
+
+                                    });
+
+                                    if (valid)
+                                    {
+                                        unitOfWork.FileDataRepository.Insert(fileDataHead);
+                                        unitOfWork.FileDataRepository.Insert(fileDataDetail);
+
+                                        unitOfWork.Save();
+                                    }
+                                }
+                                else
+                                {
+                                    /// TODO: Registrar auditoria de que existen registros que no tienen codigo xm registrado
+                                }
+                            }
+                            else
+                            {
+                                /// TODO: Registrar auditoria de que el total de debito del encabezado es diferente al del detalle
+                            }
+                        }
+                        else
+                        {
+                            /// TODO: Registrar auditoria de que el total de de credito del encabezado es diferente al del detalle
+                        }
+                    }
+                    else
+                    {
+                        /// TODO: Registrar auditoria de que el total de registros descrito en el encabezado no es el mismo que el total del detalle
+                    }
+
+                }
+                else
+                {
+                    /// TODO: Registrar auditoria de que la cuenta del archivo esta inactiva o no es tipo propia
+                }
             });
 
             byte[] fileBase64 = Convert.FromBase64String(@"UEsDBBQABgAIAAAAIQA+kuS5sgEAAFMIAAATAAgCW0NvbnRlbnRfVHlwZXNdLnhtbCCiBAIooAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
@@ -66,8 +143,16 @@ namespace Domain.Service.Services.Strategy.Behaviors
         private FileDataEntity ProcessHead(FileAdministratorEntity fileAdmin, IConfiguration conf, List<EquivalenceColumnEntity> columnsFile)
         {
             FileDataEntity bankLoadFileData = new FileDataEntity();
-
-            byte[] fileHeadB64 = ftpFileService.GetFileMulticash(fileAdmin.ReadFolder, fileAdmin.HeadFileName);
+            byte[] fileHeadB64 = null;
+            try
+            {
+                fileHeadB64 = ftpFileService.GetFileMulticash(fileAdmin.ReadFolder, fileAdmin.HeadFileName);
+            }
+            catch (Exception ex)
+            {
+                /// TODO: Registrar auditoria de que no se encontró archivo para el banco en la ruta
+                return bankLoadFileData;
+            }
             MemoryStream stream = null;
             if (fileHeadB64 != null)
             {
@@ -76,6 +161,7 @@ namespace Domain.Service.Services.Strategy.Behaviors
                 using (StreamReader sr = new StreamReader(stream))
                 {
                     string accountNumber = null;
+                    int detailQuantity = 0;
                     string line;
                     string[] columns = null;
 
@@ -85,7 +171,7 @@ namespace Domain.Service.Services.Strategy.Behaviors
                     bankLoadFileData.Origin = LoadFileOrigin.Multicash;
                     bankLoadFileData.Type = LoadFileType.Head;
 
-                    List<FileDataDetailEntity> bankLoadFileDataDetails = new List<FileDataDetailEntity>();                    
+                    List<FileDataDetailEntity> bankLoadFileDataDetails = new List<FileDataDetailEntity>();
 
                     while ((line = sr.ReadLine()) != null)
                     {
@@ -98,13 +184,15 @@ namespace Domain.Service.Services.Strategy.Behaviors
                             CreditValue = (int)Math.Ceiling(Convert.ToDecimal(columns[columnsFile.First(x => x.EquivalenceColumn.Equals(conf.GetSection("TransactionCredit").Value)).Position])),
                             DebitValue = (int)Math.Ceiling(Convert.ToDecimal(columns[columnsFile.First(x => x.EquivalenceColumn.Equals(conf.GetSection("TransactionDebit").Value)).Position])),
                             Balance = (int)Math.Ceiling(Convert.ToDecimal(columns[columnsFile.First(x => x.EquivalenceColumn.Equals(conf.GetSection("FinalBalance").Value)).Position])),
-                            DetailQuantity = Convert.ToInt32(columns[columnsFile.First(x => x.EquivalenceColumn.Equals(conf.GetSection("DetailMovements").Value)).Position])
+
                         });
 
                         accountNumber = accountNumber ?? columns[columnsFile.First(x => x.EquivalenceColumn.Equals(conf.GetSection("AccountNumber").Value)).Position];
+                        detailQuantity = detailQuantity == 0 ? Convert.ToInt32(columns[columnsFile.First(x => x.EquivalenceColumn.Equals(conf.GetSection("DetailMovements").Value)).Position]) : 0;
                     }
 
                     bankLoadFileData.AccountNumber = accountNumber;
+                    bankLoadFileData.DetailQuantity = detailQuantity;
                     bankLoadFileData.BankLoadFileDataDetail = bankLoadFileDataDetails;
                 }
             }
@@ -152,14 +240,14 @@ namespace Domain.Service.Services.Strategy.Behaviors
                             TransactionName = columns[columnsFile.First(x => x.EquivalenceColumn.Equals(conf.GetSection("TransactionDescription").Value)).Position],
                             CreditValue = value < 0 ? value : 0,
                             DebitValue = value < 0 ? 0 : value,
-                            Balance = tempValue + value,
-                            DetailQuantity = 0
+                            Balance = tempValue + value
                         });
 
                         tempValue = value;
                     }
 
                     bankLoadFileData.BankLoadFileDataDetail = bankLoadFileDataDetails;
+                    bankLoadFileData.DetailQuantity = bankLoadFileDataDetails.Count();
                 }
             }
 
