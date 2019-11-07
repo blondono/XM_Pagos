@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Infraestructure.Entity.Entities.PaymentConfirmation
 {
-    [Table("PaymentConfirmation", Schema = "Payment")]
+    [Table("PaymentsConfirmation", Schema = "Payment")]
     public class PaymentConfirmationsEntity
     {
         [Key]
@@ -14,12 +14,11 @@ namespace Infraestructure.Entity.Entities.PaymentConfirmation
         public DateTime DueDate { get; set; }
         public DateTime PaymentDate { get; set; }
         public string Company { get; set; }
-        public int ConsignedValue { get; set; }
-        public int PaymentReference { get; set; }
+        public int TotalConsigned { get; set; }
         public string Observation { get; set; }
         public int Pending { get; set; }
 
 
-        public ICollection<PaymentConfirmationBusinessEntity> PaymentConfirmationBusinessEntities { get; set; }
+        public ICollection<PaymentsEntity> PaymentsEntities { get; set; }
     }
 }

@@ -6,13 +6,14 @@ using System.Text;
 
 namespace Infraestructure.Entity.Entities.PaymentConfirmation
 {
-    [Table("PaymentConfirmationBusiness", Schema = "Payment")]
-    public class PaymentConfirmationBusinessEntity
+    [Table("Payments", Schema = "Payment")]
+    public class PaymentsEntity
     {
         [Key]
-        public int PaymentConfirmationBusinessId { get; set; }
-        public string Business { get; set; }
-        [ForeignKey("TypeCrossingsEntity")]
+        public int PaymentConfirmationAgentId { get; set; }
+        public string Agent { get; set; }
+        public int ConsignedValue { get; set; }
+        [ForeignKey("PaymentConfirmationsEntity")]
         public int PaymentConfirmationId { get; set; }
 
         public PaymentConfirmationsEntity PaymentConfirmationsEntity { get; set; }

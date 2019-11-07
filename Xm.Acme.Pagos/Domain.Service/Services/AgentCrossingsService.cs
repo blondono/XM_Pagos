@@ -9,7 +9,7 @@ using Common.Utils.Excepcions;
 using Domain.Service.DTO.Crossing;
 using Domain.Service.Services.Interface;
 using Infraestructure.Core.UnitOfWork.Interface;
-using Infraestructure.Entity.Entities.AgentCrossings;
+using Infraestructure.Entity.Entities;
 
 namespace Domain.Service.Services
 {
