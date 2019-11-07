@@ -7,7 +7,7 @@ using System.Text;
 namespace Infraestructure.Entity.Entities.ProcessFile
 {
     [Table("EquivalenceColumn", Schema = "ProcessFile")]
-    public class EquivalenceColumnEntity
+    public class EquivalenceColumnEntity : AuditEntity
     {
         [Key]
         public string Origin { get; set; }

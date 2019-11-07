@@ -26,16 +26,18 @@ namespace Applicacion.Pagos.WebApi.Areas.Job
         public readonly IFtpFileService ftpFileService;
         public readonly IUnitOfWork unitOfWork;
         public readonly IConfiguration configuration;
+        public readonly IConfigurationService configurationService;
 
         #endregion
 
 
         #region Constructor
-        public Job( IFtpFileService pFtpFileService, IUnitOfWork pUnitOfWork, IConfiguration pConfiguration)
+        public Job( IFtpFileService pFtpFileService, IUnitOfWork pUnitOfWork, IConfiguration pConfiguration, IConfigurationService pConfigurationService)
         {
             unitOfWork = pUnitOfWork;
             ftpFileService = pFtpFileService;
             configuration = pConfiguration;
+            this.configurationService = pConfigurationService;
         }
         #endregion
 
@@ -43,7 +45,7 @@ namespace Applicacion.Pagos.WebApi.Areas.Job
         #region Methods
         public Task Execute(IJobExecutionContext context)
         {
-            ProcessFile processFile = new ProcessFile(new ProcessMulticash(ftpFileService, unitOfWork, configuration));
+            ProcessFile processFile = new ProcessFile(new ProcessMulticash(ftpFileService, unitOfWork, configuration, configurationService));
 
             processFile.ProcessMulticashFile();
             processFile.ProcessFileOccidente();
